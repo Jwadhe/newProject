@@ -7,6 +7,8 @@ import { randomBytes } from 'crypto';
 import { IUser, IUserInputDTO } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
+import { throttle } from 'lodash';
+import { ObjectId } from 'mongoose';
 
 @Service()
 export default class AuthService {
@@ -42,7 +44,7 @@ export default class AuthService {
       var getuser = await this.userModel.find({
         email: userInputDTO.email
       })
-      console.log(getuser)
+      // console.log(getuser)
       if(getuser.length!=0){
         throw new Error('User already registered');
       }
@@ -59,10 +61,10 @@ export default class AuthService {
       if (!userRecord) {
         throw new Error('User cannot be created');
       }
-      this.logger.silly('Sending welcome email');
-      await this.mailer.SendWelcomeEmail(userRecord);
+      // this.logger.silly('Sending welcome email');
+      // await this.mailer.SendWelcomeEmail(userRecord);
 
-      this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
+      // this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
 
       /**
        * @TODO This is not the best way to deal with this
@@ -104,6 +106,41 @@ export default class AuthService {
       return { user, token };
     } else {
       throw new Error('Invalid Password');
+    }
+  }
+
+  public async deleteUser(res:any, _id:any): Promise<{ user: IUser }> {
+    try {
+      const userRecord = await this.userModel.findByIdAndDelete({ _id: _id });
+      if (!userRecord) {
+        throw new Error('User not registered');
+      }
+
+      return res.status(200).send({ Message: 'user deleted successfully' });
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
+    try {
+      const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
+        name: userUpdateDTO.name,
+        mobile: userUpdateDTO.mobile,
+        new: true,
+      });
+
+      const userRecord = await this.userModel.findOne({ _id: userId });
+      if (!userRecord) {
+        throw new Error('user not found');
+      }
+      const user = userRecord.toObject();
+
+      return { user };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
     }
   }
 

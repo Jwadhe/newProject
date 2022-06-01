@@ -1,10 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 import AuthService from '@/services/auth';
-import { IUserInputDTO } from '@/interfaces/IUser';
+import { IUser, IUserInputDTO } from '@/interfaces/IUser';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
+import attachCurrentUser from '../middlewares/attachCurrentUser';
 
 const route = Router();
 
@@ -17,19 +18,24 @@ export default (app: Router) => {
       body: Joi.object({
         name: Joi.string().required(),
         email: Joi.string().required(),
-        password: Joi.string().required(),
+        password: Joi.string().pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")).required(),
+        mobile: Joi.number().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
-      const logger:Logger = Container.get('logger');
-      logger.debug('Calling Sign-Up endpoint with body: %o', req.body );
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling Sign-Up endpoint with body: %o', req.body);
       try {
         const authServiceInstance = Container.get(AuthService);
         const { user, token } = await authServiceInstance.SignUp(req.body as IUserInputDTO);
         return res.status(201).json({ user, token });
       } catch (e) {
         logger.error('🔥 error: %o', e);
-        return next(e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
       }
     },
   );
@@ -43,7 +49,7 @@ export default (app: Router) => {
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
-      const logger:Logger = Container.get('logger');
+      const logger: Logger = Container.get('logger');
       logger.debug('Calling Sign-In endpoint with body: %o', req.body);
       try {
         const { email, password } = req.body;
@@ -51,8 +57,12 @@ export default (app: Router) => {
         const { user, token } = await authServiceInstance.SignIn(email, password);
         return res.json({ user, token }).status(200);
       } catch (e) {
-        logger.error('🔥 error: %o',  e );
-        return next(e);
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          // error: e,
+        });
       }
     },
   );
@@ -67,14 +77,82 @@ export default (app: Router) => {
    * It's really annoying to develop that but if you had to, please use Redis as your data store
    */
   route.post('/logout', middlewares.isAuth, (req: Request, res: Response, next: NextFunction) => {
-    const logger:Logger = Container.get('logger');
+    const logger: Logger = Container.get('logger');
     logger.debug('Calling Sign-Out endpoint with body: %o', req.body);
     try {
       //@TODO AuthService.Logout(req.user) do some clever stuff
-      return res.status(200).end();
+      return res.status(200).json({ status: true }).end();
     } catch (e) {
       logger.error('🔥 error %o', e);
       return next(e);
     }
   });
+
+  route.delete(
+    '/deleteUser',
+    celebrate({
+      body: Joi.object({
+        _id: Joi.string(),
+      }),
+    }),
+   async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling Sign-In endpoint with body: %o', req.body);
+      try {
+        var userdata1 = {};
+        const { _id } = req.body;
+        const authServiceInstance = Container.get(AuthService);
+        const {user} = await authServiceInstance.deleteUser(res, _id);
+        userdata1 = user
+        return res.status(201).json({
+          status: true,
+          data: userdata1,
+          message: 'User deleted succesfully',
+        });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
+
+  route.put(
+    '/updateUser',
+    middlewares.isAuth,
+    middlewares.attachCurrentUser,
+    celebrate({
+      body: Joi.object({
+        name: Joi.string().required(),
+        mobile: Joi.string().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('updateUserProfile: %o', req.body);
+
+      var currentUser = req.currentUser;
+      console.log(currentUser);
+      try {
+        const authServiceInstance = Container.get(AuthService);
+
+        var userdata1 = {};
+        const { user } = await authServiceInstance.updateUser(req.body as IUser, currentUser._id);
+        return res.status(201).json({
+          status: true,
+          data: user,
+        });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
 };
