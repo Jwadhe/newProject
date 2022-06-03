@@ -2,6 +2,7 @@ import { Router } from 'express';
 import auth from './routes/auth';
 import user from './routes/user';
 import agendash from './routes/agendash';
+import bot from './routes/bot';
 
 // guaranteed to get dependencies
 export default () => {
@@ -9,6 +10,7 @@ export default () => {
 	auth(app);
 	user(app);
 	agendash(app);
+	bot(app);
 
 	return app
 }

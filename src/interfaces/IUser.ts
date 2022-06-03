@@ -1,4 +1,5 @@
 export interface IUser {
+  title: any;
   _id: string;
   name: string;
   email: string;
@@ -13,4 +14,8 @@ export interface IUserInputDTO {
   email: string;
   password: string;
   mobile:Number;
+  newPassword: string;
+  oldPassword: string;
 }
+
+

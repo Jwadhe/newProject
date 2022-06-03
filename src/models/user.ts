@@ -15,6 +15,8 @@ const User = new mongoose.Schema(
     },
 
     password: String,
+    newPassword: String,
+    oldPassword: String,
     mobile:Number,
 
     salt: String,
