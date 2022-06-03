@@ -95,15 +95,15 @@ export default (app: Router) => {
         _id: Joi.string(),
       }),
     }),
-   async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
       logger.debug('Calling Sign-In endpoint with body: %o', req.body);
       try {
         var userdata1 = {};
         const { _id } = req.body;
         const authServiceInstance = Container.get(AuthService);
-        const {user} = await authServiceInstance.deleteUser(res, _id);
-        userdata1 = user
+        const { user } = await authServiceInstance.deleteUser(res, _id);
+        userdata1 = user;
         return res.status(201).json({
           status: true,
           data: userdata1,

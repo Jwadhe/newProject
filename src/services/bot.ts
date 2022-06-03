@@ -17,9 +17,8 @@ export default class botService {
     @Inject('botModel') private botModel: Models.botModel,
     @Inject('userModel') private userModel: Models.UserModel,
     // private mailer: MailerService,
-    @Inject('logger') private logger,
-  ) // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
-  {}
+    @Inject('logger') private logger, // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
+  ) {}
 
   public async createbot(IBotInputDTO: IBotInputDTO): Promise<any> {
     try {
@@ -60,18 +59,14 @@ export default class botService {
 
   public async updatebot(IBotInputDTO: IBotInputDTO, _id: any): Promise<any> {
     try {
-        console.log(_id);
-        
-      const userRecord1 = await this.botModel.findByIdAndUpdate({_id },
-        { $set: IBotInputDTO },
-        {new: true}
-        );
+      console.log(_id);
 
+      const userRecord1 = await this.botModel.findByIdAndUpdate({ _id }, { $set: IBotInputDTO }, { new: true });
 
-    // const usermodel = await this.botModel.find()
-      console.log('1',userRecord1);
+      // const usermodel = await this.botModel.find()
+      console.log('1', userRecord1);
 
-      return userRecord1 ;
+      return userRecord1;
     } catch (e) {
       this.logger.error(e);
       throw e;

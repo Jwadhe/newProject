@@ -17,8 +17,7 @@ export default class AuthService {
     private mailer: MailerService,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
-  ) {
-  }
+  ) {}
 
   // public async SignUp(userInputDTO: IUserInputDTO): Promise<{ user: IUser; token: string }> {
   //   try {
@@ -82,7 +81,7 @@ export default class AuthService {
   //   }
   // }
 
-  public async SignIn(email: string, password: string): Promise<{ user: IUser;  token: string }> {
+  public async SignIn(email: string, password: string): Promise<{ user: IUser; token: string }> {
     const userRecord = await this.userModel.findOne({ email });
     if (!userRecord) {
       throw new Error('User not registered');
@@ -109,7 +108,7 @@ export default class AuthService {
     }
   }
 
-  public async deleteUser(res:any, _id:any): Promise<{ user: IUser }> {
+  public async deleteUser(res: any, _id: any): Promise<{ user: IUser }> {
     try {
       const userRecord = await this.userModel.findByIdAndDelete({ _id: _id });
       if (!userRecord) {
@@ -196,7 +195,7 @@ export default class AuthService {
         name: user.name,
         exp: exp.getTime() / 1000,
       },
-      config.jwtSecret
+      config.jwtSecret,
     );
   }
 }
