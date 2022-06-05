@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
 import botService from '@/services/bot';
-import { IBotInputDTO } from '@/interfaces/Ibot';
+import { IBotInputDTO } from '@/interfaces/IBot';
 import { IUser } from '@/interfaces/IUser';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
@@ -47,12 +47,12 @@ export default (app: Router) => {
     },
   );
 
-  route.get('/getCreatBot', middlewares.isAuth, async (req: Request, res: Response, next: NextFunction) => {
+  route.get('/getCreateBot', middlewares.isAuth, async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
     try {
       const botServiceInstance = Container.get(botService);
-      const getCreatBot = await botServiceInstance.getCreatBot();
+      const getCreatBot = await botServiceInstance.getCreateBot();
       return res
         .json({
           status: true,

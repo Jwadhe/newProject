@@ -4,7 +4,7 @@ import MailerService from './mailer';
 import config from '@/config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
-import { IBotInputDTO } from '@/interfaces/Ibot';
+import { IBotInputDTO } from '@/interfaces/IBot';
 import { IUser } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
@@ -43,7 +43,7 @@ export default class botService {
     }
   }
 
-  public async getCreatBot(): Promise<any> {
+  public async getCreateBot(): Promise<any> {
     const getRecord = await this.botModel.find();
     if (!getRecord) {
       throw new Error('no user found');
@@ -53,6 +53,8 @@ export default class botService {
      */
 
     const getRecordbot = getRecord;
+    console.log('1',getRecordbot);
+    
 
     return { getRecordbot };
   }
