@@ -51,14 +51,8 @@ export default class botService {
     if (!getRecord) {
       throw new Error('no user found');
     }
-    /**
-     * We use verify from argon2 to prevent 'timing based' attacks
-     */
-
     const getRecordbot = getRecord;
-    console.log('1',getRecordbot);
-    
-
+    console.log('1',getRecordbot); 
     return { getRecordbot };
   }
 
