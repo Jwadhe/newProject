@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
 import botService from '@/services/bot';
-import { IBotInputDTO } from '@/interfaces/IBot';
+import { IBotInputDTO } from '@/interfaces/Ibot';
 import { IUser } from '@/interfaces/IUser';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
@@ -109,6 +109,39 @@ export default (app: Router) => {
           status: false,
           message: e.message,
           error: e,
+        });
+      }
+    },
+  );
+
+  route.delete(
+    '/deletebot',
+    celebrate({
+      body: Joi.object({
+        _id: Joi.string(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      // const logger: Logger = Container.get('logger');
+      // logger.debug('Calling Sign-In endpoint with body: %o', req.body);
+      try {
+        
+        const _id  = req.body._id;
+        const botServiceInstance = Container.get(botService);
+        const user  = await botServiceInstance.deletebot(req,res, _id);
+        
+        return res.status(201).json({
+          status: true,
+          data: user,
+          message: 'User deleted succesfully',
+        });
+      } catch (e) {
+        // logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+        //   error: e,
+ 
         });
       }
     },

@@ -4,12 +4,15 @@ import MailerService from './mailer';
 import config from '@/config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
-import { IBotInputDTO } from '@/interfaces/IBot';
+import { IBotInputDTO } from '@/interfaces/Ibot';
 import { IUser } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
 import { throttle } from 'lodash';
 import { ObjectId } from 'mongoose';
+import { Request } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 @Service()
 export default class botService {
@@ -71,6 +74,29 @@ export default class botService {
       return userRecord1;
     } catch (e) {
       this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async deletebot(req: any,res:any,_id: any,): Promise<any> {
+    try {
+      console.log('1',_id);
+    //   const userRecord1 = await this.botModel.findOne({ _id });
+    //   console.log('2',userRecord1)
+    //   if (!userRecord1) {
+    //     throw new Error('user not found');
+    //   }
+      
+      const userRecord = await this.botModel.findByIdAndDelete({ _id });
+        console.log('2',userRecord);
+        
+      if (!userRecord) {
+        throw new Error('User not registered');
+      }
+
+      return res.status(200).send({ Message: 'user deleted successfully' });
+    } catch (e) {
+      // this.logger.error(e);  
       throw e;
     }
   }

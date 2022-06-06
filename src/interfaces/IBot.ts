@@ -1,7 +1,7 @@
 
 
 export interface IBotInputDTO {  
-    // _id: string;  
+    _id: string;  
     botId: string;
     userId: string;
     title: string;
