@@ -1,4 +1,4 @@
-import { IBotInputDTO } from '@/interfaces/Ibot';
+import { IBotInputDTO } from '@/interfaces/IBot';
 import mongoose from 'mongoose';
 
 const bot = new mongoose.Schema(

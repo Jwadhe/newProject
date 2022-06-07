@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
 import botService from '@/services/bot';
-import { IBotInputDTO } from '@/interfaces/Ibot';
+import { IBotInputDTO } from '@/interfaces/IBot';
 import { IUser } from '@/interfaces/IUser';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
@@ -95,7 +95,7 @@ export default (app: Router) => {
         const user = await botServiceInstance.updatebot(req.body as IBotInputDTO, botId as any);
         if (!user) {
           return res.status(400).json({
-            status: true,
+            status: false,
             message: 'unable to update',
           });
         }

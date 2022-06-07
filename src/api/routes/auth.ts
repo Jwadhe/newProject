@@ -76,86 +76,88 @@ export default (app: Router) => {
    * emitted for the session and add it to a black list.
    * It's really annoying to develop that but if you had to, please use Redis as your data store
    */
-  route.post('/logout', middlewares.isAuth, (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling Sign-Out endpoint with body: %o', req.body);
-    try {
-      //@TODO AuthService.Logout(req.user) do some clever stuff
-      return res.status(200).json({ status: true }).end();
-    } catch (e) {
-      logger.error('🔥 error %o', e);
-      return next(e);
-    }
-  });
 
-  route.delete(
-    '/deleteUser',
-    celebrate({
-      body: Joi.object({
-        _id: Joi.string(),
-      }),
-    }),
-    async (req: Request, res: Response, next: NextFunction) => {
-      // const logger: Logger = Container.get('logger');
-      // logger.debug('Calling Sign-In endpoint with body: %o', req.body);
-      try {
+  
+  // route.post('/logout', middlewares.isAuth, (req: Request, res: Response, next: NextFunction) => {
+  //   const logger: Logger = Container.get('logger');
+  //   logger.debug('Calling Sign-Out endpoint with body: %o', req.body);
+  //   try {
+  //     //@TODO AuthService.Logout(req.user) do some clever stuff
+  //     return res.status(200).json({ status: true }).end();
+  //   } catch (e) {
+  //     logger.error('🔥 error %o', e);
+  //     return next(e);
+  //   }
+  // });
+
+  // route.delete(
+  //   '/deleteUser',
+  //   celebrate({
+  //     body: Joi.object({
+  //       _id: Joi.string(),
+  //     }),
+  //   }),
+  //   async (req: Request, res: Response, next: NextFunction) => {
+  //     // const logger: Logger = Container.get('logger');
+  //     // logger.debug('Calling Sign-In endpoint with body: %o', req.body);
+  //     try {
         
-        const _id  = req.body;
-        const authServiceInstance = Container.get(AuthService);
-        const user  = await authServiceInstance.deleteUser(res, _id);
+  //       const _id  = req.body;
+  //       const authServiceInstance = Container.get(AuthService);
+  //       const user  = await authServiceInstance.deleteUser(res, _id);
         
-        return res.status(201).json({
-          status: true,
-          data: user,
-          message: 'User deleted succesfully',
-        });
-      } catch (e) {
-        // logger.error('🔥 error: %o', e);
-        return res.status(200).send({
-          status: false,
-          message: e.message,
-          error: e,
+  //       return res.status(201).json({
+  //         status: true,
+  //         data: user,
+  //         message: 'User deleted succesfully',
+  //       });
+  //     } catch (e) {
+  //       // logger.error('🔥 error: %o', e);
+  //       return res.status(200).send({
+  //         status: false,
+  //         message: e.message,
+  //         error: e,
  
-        });
-      }
-    },
-  );
+  //       });
+  //     }
+  //   },
+  // );
 
-  route.put(
-    '/updateUser',
-    middlewares.isAuth,
-    middlewares.attachCurrentUser,
-    celebrate({
-      body: Joi.object({
-        name: Joi.string().required(),
-        mobile: Joi.string().required(),
-      }),
-    }),
-    async (req: Request, res: Response, next: NextFunction) => {
-      const logger: Logger = Container.get('logger');
-      logger.debug('updateUserProfile: %o', req.body);
+  // route.put(
+  //   '/updateUser',
+  //   middlewares.isAuth,
+  //   middlewares.attachCurrentUser,
+  //   celebrate({
+  //     body: Joi.object({
+  //       name: Joi.string().required(),
+  //       mobile: Joi.string().required(),
+  //     }),
+  //   }),
+  //   async (req: Request, res: Response, next: NextFunction) => {
+  //     const logger: Logger = Container.get('logger');
+  //     logger.debug('updateUserProfile: %o', req.body);
 
-      var currentUser = req.currentUser;
-      console.log(currentUser);
-      try {
-        const authServiceInstance = Container.get(AuthService);
+  //     var currentUser = req.currentUser;
+  //     console.log(currentUser);
+  //     try {
+  //       const authServiceInstance = Container.get(AuthService);
 
-        var userdata1 = {};
-        const { user } = await authServiceInstance.updateUser(req.body as IUser, currentUser._id);
-        return res.status(201).json({
-          status: true,
-          data: user,
-        });
-      } catch (e) {
-        logger.error('🔥 error: %o', e);
-        return res.status(200).send({
-          status: false,
-          message: e.message,
-          error: e,
-        });
-      }
-    },
-  );
+  //       var userdata1 = {};
+  //       const { user } = await authServiceInstance.updateUser(req.body as IUser, currentUser._id);
+  //       return res.status(201).json({
+  //         status: true,
+  //         data: user,
+  //       });
+  //     } catch (e) {
+  //       logger.error('🔥 error: %o', e);
+  //       return res.status(200).send({
+  //         status: false,
+  //         message: e.message,
+  //         error: e,
+  //       });
+  //     }
+  //   },
+  // );
 
   route.post(
     '/changePassword',

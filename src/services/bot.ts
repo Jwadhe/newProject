@@ -4,7 +4,7 @@ import MailerService from './mailer';
 import config from '@/config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
-import { IBotInputDTO } from '@/interfaces/Ibot';
+import { IBotInputDTO } from '@/interfaces/IBot';
 import { IUser } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';

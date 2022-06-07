@@ -117,49 +117,49 @@ export default class AuthService {
     }
   }
 
-  public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
-    try {
-      console.log('1',_id);
-      const userRecord1 = await this.userModel.findOne({ _id });
-      console.log('2',userRecord1)
-      if (!userRecord1) {
-        throw new Error('user not found');
-      }
+  // public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
+  //   try {
+  //     console.log('1',_id);
+  //     const userRecord1 = await this.userModel.findOne({ _id });
+  //     console.log('2',userRecord1)
+  //     if (!userRecord1) {
+  //       throw new Error('user not found');
+  //     }
       
-      const userRecord = await this.userModel.findByIdAndDelete({ _id  });
-        console.log('3',userRecord);
+  //     const userRecord = await this.userModel.findByIdAndDelete({ _id  });
+  //       console.log('3',userRecord);
         
-      if (!userRecord) {
-        throw new Error('User not registered');
-      }
+  //     if (!userRecord) {
+  //       throw new Error('User not registered');
+  //     }
 
-      return res.status(200).send({ Message: 'user deleted successfully' });
-    } catch (e) {
-      // this.logger.error(e);
-      throw e;
-    }
-  }
+  //     return res.status(200).send({ Message: 'user deleted successfully' });
+  //   } catch (e) {
+  //     // this.logger.error(e);
+  //     throw e;
+  //   }
+  // }
 
-  public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
-    try {
-      const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
-        name: userUpdateDTO.name,
-        mobile: userUpdateDTO.mobile,
-        new: true,
-      });
+  // public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
+  //   try {
+  //     const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
+  //       name: userUpdateDTO.name,
+  //       mobile: userUpdateDTO.mobile,
+  //       new: true,
+  //     });
 
-      const userRecord = await this.userModel.findOne({ _id: userId });
-      if (!userRecord) {
-        throw new Error('user not found');
-      }
-      const user = userRecord.toObject();
+  //     const userRecord = await this.userModel.findOne({ _id: userId });
+  //     if (!userRecord) {
+  //       throw new Error('user not found');
+  //     }
+  //     const user = userRecord.toObject();
 
-      return { user };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
+  //     return { user };
+  //   } catch (e) {
+  //     this.logger.error(e);
+  //     throw e;
+  //   }
+  // }
 
   public async changePassword(req: IUserInputDTO): Promise<{ user: IUser; message: string }> {
     try {
