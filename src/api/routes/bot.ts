@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
 import botService from '@/services/bot';
+import messageService from '@/services/messageSet';
 import { IBotInputDTO } from '@/interfaces/IBot';
 import { IUser } from '@/interfaces/IUser';
 import middlewares from '../middlewares';
@@ -11,6 +12,7 @@ import attachCurrentUser from '../middlewares/attachCurrentUser';
 import { limits } from 'argon2';
 import { join } from 'path';
 import isAuth from '../middlewares/isAuth';
+
 
 const route = Router();
 
@@ -52,7 +54,12 @@ export default (app: Router) => {
     logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
     try {
       const botServiceInstance = Container.get(botService);
+      // const messageServiceInstance = Container.get(messageService);
       const getCreatBot = await botServiceInstance.getCreateBot();
+      const gettable = await botServiceInstance.getablejoin();
+      console.log(gettable)
+  
+
       return res
         .json({
           status: true,
@@ -114,7 +121,7 @@ export default (app: Router) => {
     },
   );
 
-  route.delete(
+  route.post(
     '/deletebot',
     celebrate({
       body: Joi.object({
@@ -147,3 +154,4 @@ export default (app: Router) => {
     },
   );
 };
+

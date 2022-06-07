@@ -16,9 +16,11 @@ import { ParsedQs } from 'qs';
 
 @Service()
 export default class botService {
+
   constructor(
     @Inject('botModel') private botModel: Models.botModel,
     @Inject('userModel') private userModel: Models.UserModel,
+    @Inject('messageModel') private messageModel: Models.messageModel,
     // private mailer: MailerService,
     @Inject('logger') private logger, // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
@@ -52,7 +54,34 @@ export default class botService {
       throw new Error('no user found');
     }
     const getRecordbot = getRecord;
-    console.log('1',getRecordbot); 
+    // console.log('1',getRecordbot); 
+    return { getRecordbot };
+  }
+
+  public async getablejoin(): Promise<any> {
+    var _id = "629edb962cc02447cce9ff5d"
+    var allbot = await this.messageModel.find()
+    // console.log('Alll--', allbot);
+    
+    const getRecord = await this.messageModel.aggregate([
+      
+        {
+          $lookup: {
+             from: "bots",
+             localField: "boadId",
+             foreignField: "_id",
+             as: "bot data"
+          }
+      }
+  ])
+
+  // console.log("get Loookup---", getRecord);
+  
+    // if (!getRecord) {
+    //   throw new Error('no user found');
+    // }
+    const getRecordbot = getRecord;
+    // // console.log('1',getRecordbot); 
     return { getRecordbot };
   }
 
@@ -88,7 +117,7 @@ export default class botService {
         throw new Error('User not registered');
       }
 
-      return res.status(200).send({ Message: 'user deleted successfully' });
+      return res.status(201).send({ Message: 'user deleted successfully' });
     } catch (e) {
       // this.logger.error(e);  
       throw e;

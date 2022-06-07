@@ -17,6 +17,7 @@ import { ParsedQs } from 'qs';
 
 @Service()
 export default class messageService {
+
   constructor(
     @Inject('messageModel') private messageModel: Models.messageModel,
     @Inject('userModel') private userModel: Models.UserModel,
@@ -49,15 +50,15 @@ export default class messageService {
     }
   }
 
-//   public async getCreateBot(): Promise<any> {
-//     const getRecord = await this.botModel.find();
-//     if (!getRecord) {
-//       throw new Error('no user found');
-//     }
-//     const getRecordbot = getRecord;
-//     console.log('1',getRecordbot); 
-//     return { getRecordbot };
-//   }
+  public async getCreateMessage(): Promise<any> {
+    const getmessage = await this.messageModel.find();
+    if (!getmessage) {
+      throw new Error('no user found');
+    }
+    const getMessageSet = getmessage;
+    console.log('1',getMessageSet); 
+    return { getMessageSet };
+  }
 
 //   public async updatebot(IBotInputDTO: IBotInputDTO, _id: any): Promise<any> {
 //     try {

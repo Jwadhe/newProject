@@ -48,27 +48,27 @@ export default (app: Router) => {
       },
     );
   
-    // route.get('/getCreateBot', middlewares.isAuth, async (req: Request, res: Response, next: NextFunction) => {
-    //   const logger: Logger = Container.get('logger');
-    //   logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
-    //   try {
-    //     const botServiceInstance = Container.get(botService);
-    //     const getCreatBot = await botServiceInstance.getCreateBot();
-    //     return res
-    //       .json({
-    //         status: true,
-    //         message: getCreatBot,
-    //       })
-    //       .status(200);
-    //   } catch (e) {
-    //     logger.error('🔥 error: %o', e);
-    //     return res.status(200).send({
-    //       status: false,
-    //       message: e.message,
-    //       error: e,
-    //     });
-    //   }
-    // });
+    route.get('/getCreateMessage', middlewares.isAuth, async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
+      try {
+        const messageServiceInstance = Container.get(messageService);
+        const getCreatBot = await messageServiceInstance.getCreateMessage();
+        return res
+          .json({
+            status: true,
+            message: getCreatBot,
+          })
+          .status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    });
   
     // route.put(
     //   '/updatebot',
