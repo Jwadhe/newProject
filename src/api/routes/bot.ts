@@ -12,6 +12,7 @@ import attachCurrentUser from '../middlewares/attachCurrentUser';
 import { limits } from 'argon2';
 import { join } from 'path';
 import isAuth from '../middlewares/isAuth';
+import messageSet from './messageSet';
 
 
 const route = Router();
@@ -54,16 +55,50 @@ export default (app: Router) => {
     logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
     try {
       const botServiceInstance = Container.get(botService);
-      // const messageServiceInstance = Container.get(messageService);
+      const messageServiceInstance = Container.get(messageService);
       const getCreatBot = await botServiceInstance.getCreateBot();
-      const gettable = await botServiceInstance.getablejoin();
-      console.log(gettable)
-  
+      const getMessageSet = await messageServiceInstance.getCreateMessage();
+
+      // console.log("--MESSAGE SET RECORD>>>",getMessageSet)
+
+      const botData=[]
+      getCreatBot.map((item)=>{
+        const {
+          role,
+          _id,
+          title,
+          mobile,
+          createdAt,
+          updatedAt,
+        }=item
+
+
+        const msgSetData=[]
+        getMessageSet.map((itm)=>{
+          const { role,messageTitle,botId,createdAt,updatedAt}=itm
+          if(_id==botId){
+            msgSetData.push(itm)
+          }
+
+        })
+
+        let body={
+          role,
+          _id,
+          title,
+          mobile,
+          createdAt,
+          updatedAt,
+          messageSet:msgSetData,
+        }
+        botData.push(body)
+      })
+      // const gettable = await botServiceInstance.getablejoin();
 
       return res
         .json({
           status: true,
-          message: getCreatBot,
+          message: botData,
         })
         .status(200);
     } catch (e) {

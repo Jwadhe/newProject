@@ -3,12 +3,10 @@ import mongoose from 'mongoose';
 
 const message = new mongoose.Schema(
   {
+  // _id: String,
+  // botId: mongoose.Schema.Types.ObjectId,
   botId: String,
-  messageId: String,
   messageTitle: String,
-  userId: String,
-  title: String,
-  mobile: String,
 
     // salt: String,
 

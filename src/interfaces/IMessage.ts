@@ -1,7 +1,6 @@
 
-
-export interface IMessageInputDTO {  
-    _id: string;  
+export interface IMessageInputDTO {    
+  _id: string;
     botId: string;
     messageId: string;
     userId: string;

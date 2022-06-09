@@ -13,6 +13,7 @@ import { ObjectId } from 'mongoose';
 import { Request } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
+import { resolve } from 'path';
 
 @Service()
 export default class botService {
@@ -55,7 +56,7 @@ export default class botService {
     }
     const getRecordbot = getRecord;
     // console.log('1',getRecordbot); 
-    return { getRecordbot };
+    return  getRecordbot ;
   }
 
   public async getablejoin(): Promise<any> {
@@ -70,9 +71,12 @@ export default class botService {
              from: "bots",
              localField: "boadId",
              foreignField: "_id",
-             as: "bot data"
+             as: "messageSet"
           }
-      }
+      },
+      {
+        $unwind: "$messageSet"
+    },
   ])
 
   // console.log("get Loookup---", getRecord);
@@ -82,7 +86,7 @@ export default class botService {
     // }
     const getRecordbot = getRecord;
     // // console.log('1',getRecordbot); 
-    return { getRecordbot };
+    return  getRecordbot;
   }
 
   public async updatebot(IBotInputDTO: IBotInputDTO, _id: any): Promise<any> {
@@ -111,7 +115,13 @@ export default class botService {
     //   }
       
       const userRecord = await this.botModel.findByIdAndDelete({ _id });
-        console.log('2',userRecord);
+      Promise.all([
+        new Promise((resolve, reject) => {
+          userRecord
+        }).then(e=>console.log(e)),
+      ])
+        
+      console.log('2',userRecord);
         
       if (!userRecord) {
         throw new Error('User not registered');
