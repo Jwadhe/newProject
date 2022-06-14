@@ -6,6 +6,7 @@ import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
 import { ISettingInputDTO } from '@/interfaces/ISetting';
 import { ObjectId } from 'mongoose';
+import { Request } from 'express';
 
 @Service()
 export default class settingService {
@@ -35,31 +36,38 @@ export default class settingService {
       }
 
       const user = settingRecord.toObject();
-      return { user };
+      return{ user} ;
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
 
-
-  public async updateSettingTable(ISettingInputDTO: ISettingInputDTO, _id:ObjectId): Promise<any> {
-    try {
-      // console.log('111',ISettingInputDTO);
-      //       const settingFind = await this.settingModel.find()
-      // console.log('2222',settingFind);
+  public async getCreateSetting(mobile: any): Promise<any> {
+    try{
+      console.log('0',mobile);
       
-      const settingRecord1 = await this.settingModel.findByIdAndUpdate(_id,{
-        delayResponse:ISettingInputDTO.delayResponse,
-        inActiveTimes:ISettingInputDTO.inActiveTimes,
-        disconnectTimes:ISettingInputDTO.disconnectTimes,
-        reativeUser:ISettingInputDTO.reativeUser,
-       },
-        { new: true });      
-      console.log('1', settingRecord1);
+    const getmessage = await this.settingModel.findOne({ mobile:mobile });
+    console.log('1',getmessage);
+
+    
+    if (!getmessage) {
+      throw new Error('no mobile found');
+    }
+    // const getMessageSet = getmessage;
+    // console.log('2',getMessageSet); 
+    return  getmessage ;
+  }catch(e){
+    this.logger.error(e);
+      throw e;
+  }
+  }
 
 
-
+  public async updateSettingTable(ISettingInputDTO: ISettingInputDTO, _id:any): Promise<any> {
+    try {      
+      const settingRecord1 = await this.settingModel.findByIdAndUpdate({ _id }, { $set: ISettingInputDTO }, { new: true });      
+      // console.log('1', settingRecord1);
       return settingRecord1;
     } catch (e) {
       this.logger.error(e);

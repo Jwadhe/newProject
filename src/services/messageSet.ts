@@ -15,24 +15,15 @@ export default class messageService {
   ) {}
 
   public async createMessage(IMessageInputDTO: IMessageInputDTO): Promise<any> {
-    console.log('1',IMessageInputDTO);
+    // console.log('1',IMessageInputDTO);
     
     try {
-      // var messageUser = await this.messageModel.find({
-      //   messageId: IMessageInputDTO.messageId,
-      // });
-      // console.log('1',messageUser);
-
       const messageRecord = await this.messageModel.create({
         ...IMessageInputDTO,
-      });
-      console.log('2',messageRecord);
-      
-
+      });          
       if (!messageRecord) {
         throw new Error('User message cannot be created');
       }
-
       const user = messageRecord.toObject();
       return { user };
     } catch (e) {
@@ -47,21 +38,20 @@ export default class messageService {
       throw new Error('no user found');
     }
     const getMessageSet = getmessage;
-    console.log('1',getMessageSet); 
     return  getMessageSet ;
   }
 
   public async deleteMessageSet(req: any,res:any,botId: any,): Promise<any> {
     try {
-      console.log('1',botId);
+      // console.log('1',botId);
       const userRecord1 = await this.messageModel.find({ botId });
-      console.log('2',userRecord1)
+      // console.log('2',userRecord1)
       if (userRecord1.length>0) {
             
         var userRecord
         userRecord1.map(async(item)=>{
           userRecord = await this.messageModel.findOneAndDelete({ botId:botId });
-          console.log('3',userRecord);
+          // console.log('3',userRecord);
         })
      
         return true;
@@ -74,4 +64,38 @@ export default class messageService {
       throw e;
     }
   }
+
+  public async getByBotId( botId: any): Promise<any> {
+    try{            
+    const getmessage = await this.messageModel.find({ botId:botId });       
+    if (!getmessage) {
+      throw new Error('no user found');
+    }
+    return  getmessage ;
+  }catch(e){
+    this.logger.error(e);
+      throw e;
+  }
+  }
+
+  public async deleteById(req: any,res:any,_id: any,): Promise<any> {
+    try {
+      console.log('1',_id);
+      const userRecord1 = await this.messageModel.findByIdAndDelete({ _id:_id });
+           console.log('2',userRecord1)        
+          // console.log('3',userRecord1);
+          if (!userRecord1) {
+            throw new Error('User already deleted');
+          }
+          const user = userRecord1.toObject();
+     
+        return user;
+  
+    } catch (e) {
+      // this.logger.error(e);  
+      throw e;
+    }
+  }
+
+  
 }

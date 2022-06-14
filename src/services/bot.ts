@@ -59,35 +59,35 @@ export default class botService {
     return  getRecordbot ;
   }
 
-  public async getablejoin(): Promise<any> {
-    var _id = "629edb962cc02447cce9ff5d"
-    var allbot = await this.messageModel.find()
-    // console.log('Alll--', allbot);
+  // public async getablejoin(): Promise<any> {
+  //   var _id = "629edb962cc02447cce9ff5d"
+  //   var allbot = await this.messageModel.find()
+  //   // console.log('Alll--', allbot);
     
-    const getRecord = await this.messageModel.aggregate([
+  //   const getRecord = await this.messageModel.aggregate([
       
-        {
-          $lookup: {
-             from: "bots",
-             localField: "boadId",
-             foreignField: "_id",
-             as: "messageSet"
-          }
-      },
-      {
-        $unwind: "$messageSet"
-    },
-  ])
+  //       {
+  //         $lookup: {
+  //            from: "bots",
+  //            localField: "boadId",
+  //            foreignField: "_id",
+  //            as: "messageSet"
+  //         }
+  //     },
+  //     {
+  //       $unwind: "$messageSet"
+  //   },
+  // ])
 
-  // console.log("get Loookup---", getRecord);
+  // // console.log("get Loookup---", getRecord);
   
-    // if (!getRecord) {
-    //   throw new Error('no user found');
-    // }
-    const getRecordbot = getRecord;
-    // // console.log('1',getRecordbot); 
-    return  getRecordbot;
-  }
+  //   // if (!getRecord) {
+  //   //   throw new Error('no user found');
+  //   // }
+  //   const getRecordbot = getRecord;
+  //   // // console.log('1',getRecordbot); 
+  //   return  getRecordbot;
+  // }
 
   public async updatebot(IBotInputDTO: IBotInputDTO, _id: any): Promise<any> {
     try {

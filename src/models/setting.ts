@@ -12,8 +12,10 @@ const setting = new mongoose.Schema(
     reativeUser: Number,
   // _id: String,
   // botId: mongoose.Schema.Types.ObjectId,
-  botId: String,
-  messageTitle: String,
+    botId: String,
+    messageTitle: String,
+    mobile: Number,
+    defaultText:String,
 
     // salt: String,
 
@@ -25,5 +27,5 @@ const setting = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model< ISettingInputDTO & mongoose.Document>('setting', setting);
+export default mongoose.model<ISettingInputDTO & mongoose.Document>('setting', setting);
 
