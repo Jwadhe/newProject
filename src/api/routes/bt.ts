@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
-import botService from '@/services/bot';
+import btService from '@/services/bt';
 import messageService from '@/services/messageSet';
-import { IBotInputDTO } from '@/interfaces/IBot';
+import { IBtInputDTO } from '@/interfaces/Ibt';
 import { IUser } from '@/interfaces/IUser';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
@@ -17,27 +17,23 @@ import messageSet from './messageSet';
 const route = Router();
 
 export default (app: Router) => {
-  app.use('/bot', route);
+  app.use('/bt', route);
 
   route.post(
-    '/createbot',
+    '/createBt',
     // middlewares.isAuth,
     celebrate({
       body: Joi.object({
-        // botId: Joi.string(),
-        // userId: Joi.string().required(),
         title: Joi.string(),
-        // mobile: Joi.string().max(10).required(),
-        mobile: Joi.string(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
       logger.debug('Calling createbot endpoint with body: %o', req.body);
       try {
-        const botServiceInstance = Container.get(botService);
-        const { user } = await botServiceInstance.createbot(req.body as IBotInputDTO);
-        return res.status(201).json({ user });
+        const btServiceInstance = Container.get(btService);
+        const user = await btServiceInstance.createbt(req.body as IBtInputDTO);
+        return res.status(201).json(user);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
@@ -50,48 +46,19 @@ export default (app: Router) => {
   );
 
   route.get(
-    '/getCreateBot',
+    '/getBt',
     //  middlewares.isAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
+      logger.debug('Calling getCreatBot endpoint with body: %o', req.query);
       try {
-        const botServiceInstance = Container.get(botService);
-        const messageServiceInstance = Container.get(messageService);
-        const getCreatBot = await botServiceInstance.getCreateBot();
-        const getMessageSet = await messageServiceInstance.getCreateMessage();
-
-        // console.log("--MESSAGE SET RECORD>>>",getMessageSet)
-
-        const botData = [];
-        getCreatBot.map(item => {
-          const { role, _id, title, mobile, createdAt, updatedAt } = item;
-
-          const msgSetData = [];
-          getMessageSet.map(itm => {
-            const { role, messageTitle, botId, createdAt, updatedAt } = itm;
-            if (_id == botId) {
-              msgSetData.push(itm);
-            }
-          });
-
-          let body = {
-            role,
-            _id,
-            title,
-            mobile,
-            createdAt,
-            updatedAt,
-            messageSet: msgSetData,
-          };
-          botData.push(body);
-        });
-        // const gettable = await botServiceInstance.getablejoin();
+        const btServiceInstance = Container.get(btService);
+        const getCreatBot = await btServiceInstance.getBt();
 
         return res
           .json({
             status: true,
-            message: botData,
+            message: getCreatBot,
           })
           .status(200);
       } catch (e) {
@@ -106,38 +73,38 @@ export default (app: Router) => {
   );
 
   route.put(
-    '/updatebot',
+    '/updateBtTable',
     // middlewares.isAuth,
     // middlewares.attachCurrentUser,
     celebrate({
       body: Joi.object({
         title: Joi.string(),
-        mobile: Joi.string(),
       }),
       query: Joi.object({
-        botId: Joi.string(),
+        _id: Joi.string(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('updatebot: %o', req.body);
+      logger.debug('updateBtTable: %o', req.body);
 
-      var currentUser = req.currentUser;
-      console.log(currentUser);
       try {
-        const botServiceInstance = Container.get(botService);
-        var botId = req.query.botId;
+        const btServiceInstance = Container.get(btService);
+        var _id = req.query._id;
+        // console.log('2',_id);
+
         var userdata1 = {};
-        const user = await botServiceInstance.updatebot(req.body as IBotInputDTO, botId as any);
+        const user = await btServiceInstance.updateBtTable(req.body as IBtInputDTO, _id as any);
         if (!user) {
           return res.status(400).json({
             status: false,
-            message: 'unable to update',
+            message: 'user not update',
           });
         }
         return res.status(201).json({
           status: true,
           data: user,
+          message: 'user updated successfully',
         });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -150,20 +117,22 @@ export default (app: Router) => {
     },
   );
 
-  route.post(
-    '/deletebot',
+  route.delete(
+    '/deleteBtById',
     celebrate({
-      body: Joi.object({
+      query: Joi.object({
         _id: Joi.string(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
-      // const logger: Logger = Container.get('logger');
-      // logger.debug('Calling Sign-In endpoint with body: %o', req.body);
+      const logger: Logger = Container.get('logger');
+      logger.debug('deleteBtById', req.query);
       try {
-        const _id = req.body._id;
-        const botServiceInstance = Container.get(botService);
-        const user = await botServiceInstance.deletebot(req, res, _id);
+        var _id = req.query._id;
+        // console.log('0',_id);
+
+        const btServiceInstance = Container.get(btService);
+        const user = await btServiceInstance.deleteBtById(req, res, _id);
 
         return res.status(201).json({
           status: true,
@@ -171,11 +140,11 @@ export default (app: Router) => {
           message: 'User deleted succesfully',
         });
       } catch (e) {
-        // logger.error('🔥 error: %o', e);
+        logger.error('🔥 error: %o', e);
         return res.status(200).send({
           status: false,
           message: e.message,
-          //   error: e,
+          error: e,
         });
       }
     },

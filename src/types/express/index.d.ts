@@ -3,6 +3,8 @@ import { IUser } from '@/interfaces/IUser';
 import { IBotInputDTO } from '@/interfaces/IBot';
 import { IMessageInputDTO} from '@/interfaces/IMessage';
 import { ISettingInputDTO} from '@/interfaces/ISetting';
+import { IBtInputDTO } from '@/interfaces/Ibt';
+
 
 
 declare global {
@@ -12,6 +14,8 @@ declare global {
       currentUser1: IBotInputDTO & Document;
       // currentUser2: IMessageInputDTO & Document;
       currentUser3: ISettingInputDTO & Document;
+      currentUser4: IBtInputDTO & Document;
+      
 
     }
   }
@@ -21,6 +25,8 @@ declare global {
     export type botModel = Model<Document>;
     export type messageModel = Model<Document>;
     export type settingModel = Model<Document>;
+    export type btModel = Model<Document>;
+    
 
   }
 }

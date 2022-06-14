@@ -17,7 +17,6 @@ import { resolve } from 'path';
 
 @Service()
 export default class botService {
-
   constructor(
     @Inject('botModel') private botModel: Models.botModel,
     @Inject('userModel') private userModel: Models.UserModel,
@@ -28,18 +27,16 @@ export default class botService {
 
   public async createbot(IBotInputDTO: IBotInputDTO): Promise<any> {
     try {
-      var botuser = await this.botModel.find({
-        botId: IBotInputDTO.botId,
+      var botuser = await this.botModel.findOne({
+        title: IBotInputDTO.title,
       });
-      console.log(botuser);
+      if (botuser) {
+        throw new Error('Bot already created');
+      }
 
       const botRecord = await this.botModel.create({
         ...IBotInputDTO,
       });
-
-      if (!botRecord) {
-        throw new Error('User cannot be created');
-      }
 
       const user = botRecord.toObject();
       return { user };
@@ -55,17 +52,17 @@ export default class botService {
       throw new Error('no user found');
     }
     const getRecordbot = getRecord;
-    // console.log('1',getRecordbot); 
-    return  getRecordbot ;
+    // console.log('1',getRecordbot);
+    return getRecordbot;
   }
 
   // public async getablejoin(): Promise<any> {
   //   var _id = "629edb962cc02447cce9ff5d"
   //   var allbot = await this.messageModel.find()
   //   // console.log('Alll--', allbot);
-    
+
   //   const getRecord = await this.messageModel.aggregate([
-      
+
   //       {
   //         $lookup: {
   //            from: "bots",
@@ -80,12 +77,12 @@ export default class botService {
   // ])
 
   // // console.log("get Loookup---", getRecord);
-  
+
   //   // if (!getRecord) {
   //   //   throw new Error('no user found');
   //   // }
   //   const getRecordbot = getRecord;
-  //   // // console.log('1',getRecordbot); 
+  //   // // console.log('1',getRecordbot);
   //   return  getRecordbot;
   // }
 
@@ -105,31 +102,31 @@ export default class botService {
     }
   }
 
-  public async deletebot(req: any,res:any,_id: any,): Promise<any> {
+  public async deletebot(req: any, res: any, _id: any): Promise<any> {
     try {
-      console.log('1',_id);
-    //   const userRecord1 = await this.botModel.findOne({ _id });
-    //   console.log('2',userRecord1)
-    //   if (!userRecord1) {
-    //     throw new Error('user not found');
-    //   }
-      
+      console.log('1', _id);
+      //   const userRecord1 = await this.botModel.findOne({ _id });
+      //   console.log('2',userRecord1)
+      //   if (!userRecord1) {
+      //     throw new Error('user not found');
+      //   }
+
       const userRecord = await this.botModel.findByIdAndDelete({ _id });
       Promise.all([
         new Promise((resolve, reject) => {
-          userRecord
-        }).then(e=>console.log(e)),
-      ])
-        
-      console.log('2',userRecord);
-        
+          userRecord;
+        }).then(e => console.log(e)),
+      ]);
+
+      console.log('2', userRecord);
+
       if (!userRecord) {
         throw new Error('User not registered');
       }
 
       return res.status(201).send({ Message: 'user deleted successfully' });
     } catch (e) {
-      // this.logger.error(e);  
+      // this.logger.error(e);
       throw e;
     }
   }

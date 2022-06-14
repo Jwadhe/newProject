@@ -5,6 +5,7 @@ import agendash from './routes/agendash';
 import bot from './routes/bot';
 import messageSet from './routes/messageSet';
 import setting from './routes/setting'
+import bt from './routes/BT'
 
 // guaranteed to get dependencies
 export default () => {
@@ -15,6 +16,7 @@ export default () => {
 	bot(app);
 	messageSet(app);
 	setting(app);
+	bt(app)
 
 	return app
 }

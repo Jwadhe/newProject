@@ -10,7 +10,6 @@ import { Request } from 'express';
 
 @Service()
 export default class settingService {
-
   constructor(
     @Inject('settingModel') private settingModel: Models.settingModel,
     @Inject('botModel') private botModel: Models.botModel,
@@ -24,8 +23,8 @@ export default class settingService {
     try {
       var settingUser = await this.settingModel.find({
         ...ISettingInputDTO,
-      })
-      console.log('find',settingUser);
+      });
+      console.log('find', settingUser);
 
       const settingRecord = await this.settingModel.create({
         ...ISettingInputDTO,
@@ -36,7 +35,7 @@ export default class settingService {
       }
 
       const user = settingRecord.toObject();
-      return{ user} ;
+      return { user };
     } catch (e) {
       this.logger.error(e);
       throw e;
@@ -44,29 +43,31 @@ export default class settingService {
   }
 
   public async getCreateSetting(mobile: any): Promise<any> {
-    try{
-      console.log('0',mobile);
-      
-    const getmessage = await this.settingModel.findOne({ mobile:mobile });
-    console.log('1',getmessage);
+    try {
+      console.log('0', mobile);
 
-    
-    if (!getmessage) {
-      throw new Error('no mobile found');
-    }
-    // const getMessageSet = getmessage;
-    // console.log('2',getMessageSet); 
-    return  getmessage ;
-  }catch(e){
-    this.logger.error(e);
+      const getmessage = await this.settingModel.findOne({ mobile: mobile });
+      console.log('1', getmessage);
+
+      if (!getmessage) {
+        throw new Error('no mobile found');
+      }
+      // const getMessageSet = getmessage;
+      // console.log('2',getMessageSet);
+      return getmessage;
+    } catch (e) {
+      this.logger.error(e);
       throw e;
-  }
+    }
   }
 
-
-  public async updateSettingTable(ISettingInputDTO: ISettingInputDTO, _id:any): Promise<any> {
-    try {      
-      const settingRecord1 = await this.settingModel.findByIdAndUpdate({ _id }, { $set: ISettingInputDTO }, { new: true });      
+  public async updateSettingTable(ISettingInputDTO: ISettingInputDTO, _id: any): Promise<any> {
+    try {
+      const settingRecord1 = await this.settingModel.findByIdAndUpdate(
+        { _id },
+        { $set: ISettingInputDTO },
+        { new: true },
+      );
       // console.log('1', settingRecord1);
       return settingRecord1;
     } catch (e) {
@@ -74,5 +75,4 @@ export default class settingService {
       throw e;
     }
   }
-
 }
