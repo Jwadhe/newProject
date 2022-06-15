@@ -4,8 +4,8 @@ import user from './routes/user';
 import agendash from './routes/agendash';
 import bot from './routes/bot';
 import messageSet from './routes/messageSet';
-import setting from './routes/setting'
-import bt from './routes/BT'
+import setting from './routes/setting';
+import bt from './routes/bt';
 
 // guaranteed to get dependencies
 export default () => {
