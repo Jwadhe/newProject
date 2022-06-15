@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
-import messageService from '@/services/messageSet';
-import { IMessageInputDTO } from '@/interfaces/IMessage';
+import messageService from '../../services/messageSet';
+import { IMessageInputDTO } from '../../interfaces/IMessage';
 import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';

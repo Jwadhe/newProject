@@ -1,8 +1,8 @@
 import { Document, Model } from 'mongoose';
-import { IUser } from '@/interfaces/IUser';
-import { IBotInputDTO } from '@/interfaces/IBot';
-import { IMessageInputDTO} from '@/interfaces/IMessage';
-import { ISettingInputDTO} from '@/interfaces/ISetting';
+import { IUser } from '../../interfaces/IUser';
+import { IBotInputDTO } from '../../interfaces/IBot';
+// import { IMessageInputDTO} from '@/interfaces/IMessage';
+import { ISettingInputDTO} from '../../interfaces/ISetting';
 import { IBtInputDTO } from '../../interfaces/IBt';
 
 

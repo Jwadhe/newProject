@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
-import btService from '@/services/bt';
+import btService from '../../services/bt';
 // import messageService from '@/services/messageSet';
 import { IBtInputDTO } from '../../interfaces/IBt';
 // import { IUser } from '@/interfaces/IUser';

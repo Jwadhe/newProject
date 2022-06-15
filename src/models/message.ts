@@ -1,4 +1,4 @@
-import { IMessageInputDTO } from '@/interfaces/IMessage';
+import { IMessageInputDTO } from '../interfaces/IMessage';
 import mongoose from 'mongoose';
 
 const message = new mongoose.Schema(

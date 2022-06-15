@@ -5,7 +5,7 @@ import MailerService from './mailer';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
 import { IUser, IUserInputDTO } from '@/interfaces/IUser';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+// import { EventDispatcher, EventDispatcherInterface } from '../../decorators/eventDispatcher';
 import events from '@/subscribers/events';
 import { throttle } from 'lodash';
 import { ObjectId } from 'mongoose';
@@ -19,7 +19,7 @@ export default class AuthService {
     @Inject('userModel') private userModel: Models.UserModel,
     private mailer: MailerService,
     @Inject('logger') private logger,
-    @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
+    // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
   // public async SignUp(userInputDTO: IUserInputDTO): Promise<{ user: IUser; token: string }> {
