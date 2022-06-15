@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 // import AuthService from '@/services/auth';
 import btService from '@/services/bt';
 // import messageService from '@/services/messageSet';
-import { IBtInputDTO } from '../../interfaces/IBt';
+import { IBtInputDTO } from '../../interfaces/Ibt';
 // import { IUser } from '@/interfaces/IUser';
 // import middlewares from '../middlewares';
 import { celebrate, Joi } from 'celebrate';

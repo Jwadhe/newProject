@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { OpticMiddleware } from '@useoptic/express-middleware';
 import routes from '@/api';
-import config from '@/config';
+import config from '../config';
 export default ({ app }: { app: express.Application }) => {
   /**
    * Health Check endpoints

@@ -1,10 +1,10 @@
 import { Service, Inject } from 'typedi';
 import jwt from 'jsonwebtoken';
 import MailerService from './mailer';
-import config from '@/config';
+// import config from '@/config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
-import { IBtInputDTO } from '../interfaces/IBt';
+import { IBtInputDTO } from '../interfaces/Ibt';
 import { IUser } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
