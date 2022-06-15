@@ -3,7 +3,7 @@ import { IUser } from '@/interfaces/IUser';
 import { IBotInputDTO } from '@/interfaces/IBot';
 import { IMessageInputDTO} from '@/interfaces/IMessage';
 import { ISettingInputDTO} from '@/interfaces/ISetting';
-import { IBtInputDTO } from '../../interfaces/Ibt';
+import { IBtInputDTO } from '../../interfaces/IBt';
 
 
 

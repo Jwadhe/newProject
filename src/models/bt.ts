@@ -1,4 +1,4 @@
-import { IBtInputDTO } from '../interfaces/Ibt';
+import { IBtInputDTO } from '../interfaces/IBt';
 import mongoose from 'mongoose';
 
 const bt = new mongoose.Schema(
