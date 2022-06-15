@@ -5,7 +5,6 @@ import MailerService from './mailer';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
 import { IBtInputDTO } from '../interfaces/IBt';
-// import { IUser } from '@/interfaces/IUser';
 // import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 // import events from '@/subscribers/events';
 import { throttle } from 'lodash';

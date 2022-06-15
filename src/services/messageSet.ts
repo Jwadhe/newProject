@@ -1,5 +1,5 @@
 import { Service, Inject } from 'typedi';
-import { IMessageInputDTO } from '@/interfaces/IMessage';
+import { IMessageInputDTO } from '../interfaces/IMessage';
 import { ObjectId } from 'mongoose';
 
 @Service()
