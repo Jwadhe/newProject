@@ -30,6 +30,9 @@
   ],
   "author": "Santiago Quinteros",
   "license": "ISC",
+  "engines": {
+    "node": "14"
+    },
   "dependencies": {
     "@useoptic/express-middleware": "^0.0.5",
     "agenda": "^3.1.0",
