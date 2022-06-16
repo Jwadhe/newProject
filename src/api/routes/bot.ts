@@ -190,7 +190,7 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getCreatBot endpoint with body: %o', req.query);
+      logger.debug('Calling getBot endpoint with query: %o', req.query);
 
       try {
         var btId = req.query.btId;
