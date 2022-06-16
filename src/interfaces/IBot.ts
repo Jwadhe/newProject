@@ -6,5 +6,6 @@ export interface IBotInputDTO {
     userId: string;
     title: string;
     mobile: string;  
-    name: string;    
+    name: string; 
+    btId: string;   
   }

@@ -9,6 +9,7 @@ const bot = new mongoose.Schema(
   userId: String,
   title: String,
   mobile: String,
+  btId: String,
 
     // salt: String,
 

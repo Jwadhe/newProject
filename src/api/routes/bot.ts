@@ -27,6 +27,7 @@ export default (app: Router) => {
         title: Joi.string(),
         // mobile: Joi.string().max(10).required(),
         mobile: Joi.string(),
+        btId: Joi.string(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -178,4 +179,41 @@ export default (app: Router) => {
       }
     },
   );
+
+  route.get(
+    '/getBot',
+    // middlewares.isAuth,
+    celebrate({
+      query: Joi.object({
+        btId: Joi.string(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getCreatBot endpoint with body: %o', req.query);
+
+      try {
+        var btId = req.query.btId;
+        //  console.log('fkljf',botId);
+
+        const botServiceInstance = Container.get(botService);
+        const getBt = await botServiceInstance.getBot(btId as any);
+        return res
+          .json({
+            status: true,
+            message: getBt,
+          })
+          .status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
+
+
 };

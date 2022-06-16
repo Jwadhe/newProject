@@ -17,6 +17,7 @@ import { resolve } from 'path';
 @Service()
 export default class botService {
   constructor(
+    @Inject('btModel') private btModel: Models.btModel,
     @Inject('botModel') private botModel: Models.botModel,
     @Inject('userModel') private userModel: Models.UserModel,
     @Inject('messageModel') private messageModel: Models.messageModel,
@@ -126,6 +127,19 @@ export default class botService {
       return res.status(201).send({ Message: 'user deleted successfully' });
     } catch (e) {
       // this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async getBot(btId: any): Promise<any> {
+    try {
+      const getmessage = await this.botModel.find({ btId: btId });
+      if (!getmessage) {
+        throw new Error('no user found');
+      }
+      return getmessage;
+    } catch (e) {
+      this.logger.error(e);
       throw e;
     }
   }

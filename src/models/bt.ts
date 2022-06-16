@@ -5,6 +5,7 @@ const bt = new mongoose.Schema(
   {
 
   title: String, 
+  btId: String,
 
     // salt: String,
 
