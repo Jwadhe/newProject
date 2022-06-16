@@ -147,37 +147,31 @@ export default (app: Router) => {
     },
   );
 
-  // route.delete(
-  //   '/deleteAllBt',
-  //   celebrate({
-  //     query: Joi.object({
-  //       _id: Joi.string(),
-  //     }),
-  //   }),
-  //   async (req: Request, res: Response, next: NextFunction) => {
-  //     const logger: Logger = Container.get('logger');
-  //     logger.debug('deleteBtById', req.query);
-  //     try {
-  //       var _id = req.query._id;
+  route.delete(
+    '/deleteAllBt',
 
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('deleteBtById', req.query);
+      try {
+       
+        const btServiceInstance = Container.get(btService);
+        const user = await btServiceInstance.deleteAllBt();
 
-  //       const btServiceInstance = Container.get(btService);
-  //       const user = await btServiceInstance.deleteAllBt(req, res, _id);
-
-  //       return res.status(201).json({
-  //         status: true,
-  //         data: user,
-  //         message: 'User deleted succesfully',
-  //       });
-  //     } catch (e) {
-  //       logger.error('🔥 error: %o', e);
-  //       return res.status(200).send({
-  //         status: false,
-  //         message: e.message,
-  //         error: e,
-  //       });
-  //     }
-  //   },
-  // );
+        return res.status(201).json({
+          status: true,
+          data: user,
+          message: 'User Record deleted succesfully',
+        });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
 
 };
