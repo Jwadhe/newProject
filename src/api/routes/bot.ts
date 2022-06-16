@@ -222,16 +222,13 @@ export default (app: Router) => {
           };
           botData.push(body);
         });
-        console.log('>>>>>',botData);
-        
-
-
+        console.log('>>>>>',botData); 
         return res
           .json({
             status: true,
             message: botData,
           })
-          .status(200);
+          .status(201);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
