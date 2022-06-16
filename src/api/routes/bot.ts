@@ -22,10 +22,7 @@ export default (app: Router) => {
     // middlewares.isAuth,
     celebrate({
       body: Joi.object({
-        // botId: Joi.string(),
-        // userId: Joi.string().required(),
         title: Joi.string(),
-        // mobile: Joi.string().max(10).required(),
         mobile: Joi.string(),
         btId: Joi.string(),
       }),
@@ -194,7 +191,7 @@ export default (app: Router) => {
 
       try {
         var btId = req.query.btId;
-        //  console.log('fkljf',botId);
+         console.log('btId1>>>>>>>>>>>',btId);
 
         const botServiceInstance = Container.get(botService);
         const getBt = await botServiceInstance.getBot(btId as any);

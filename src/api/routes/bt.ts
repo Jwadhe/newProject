@@ -57,7 +57,7 @@ export default (app: Router) => {
             status: true,
             message: getCreatBot,
           })
-          .status(200);
+          .status(201);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
