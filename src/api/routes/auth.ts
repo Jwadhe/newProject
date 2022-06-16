@@ -138,7 +138,7 @@ export default (app: Router) => {
   //     logger.debug('updateUserProfile: %o', req.body);
 
   //     var currentUser = req.currentUser;
-  //     console.log(currentUser);
+
   //     try {
   //       const authServiceInstance = Container.get(AuthService);
 

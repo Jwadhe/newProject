@@ -20,10 +20,10 @@ export default (app: Router) => {
       logger.debug('Calling createMessage endpoint with body: %o', req.body.msgList);
 
       try {
-        // console.log('>>>>>>>',req.body.msgList);
+
         var msgList = req.body.msgList;
         var botId = req?.body?.msgList?.[0]?.botId;
-        // console.log("-->>>BOAT ID-->>>",botId)
+
 
         const messageServiceInstanceD = Container.get(messageService);
         const userD = await messageServiceInstanceD.deleteMessageSet(req, res, botId);
@@ -115,7 +115,7 @@ export default (app: Router) => {
 
       try {
         var botId = req.query.botId;
-        //  console.log('fkljf',botId);
+
 
         const messageServiceInstance = Container.get(messageService);
         const getCreatBot = await messageServiceInstance.getByBotId(botId as any);
@@ -148,7 +148,7 @@ export default (app: Router) => {
       logger.debug('Calling Sign-In endpoint with body: %o', req.query);
       try {
         var _id = req.query._id;
-        // console.log('0',_id);
+
 
         const messageServiceInstance = Container.get(messageService);
         const user = await messageServiceInstance.deleteById(req, res, _id);

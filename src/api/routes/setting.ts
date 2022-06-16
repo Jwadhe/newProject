@@ -60,7 +60,7 @@ export default (app: Router) => {
 
       try {
         var mobile = req.query.mobile;
-        // console.log('fkljf',mobile);
+
 
         const settingServiceInstance = Container.get(settingService);
         const getCreatBot = await settingServiceInstance.getCreateSetting(mobile as any);
@@ -108,7 +108,7 @@ export default (app: Router) => {
       try {
         const settingServiceInstance = Container.get(settingService);
         var _id = req.query._id;
-        // console.log('2',_id);
+
 
         var userdata1 = {};
         const user = await settingServiceInstance.updateSettingTable(req.body as ISettingInputDTO, _id as any);

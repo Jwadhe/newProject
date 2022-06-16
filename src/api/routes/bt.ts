@@ -88,7 +88,7 @@ export default (app: Router) => {
       try {
         const btServiceInstance = Container.get(btService);
         var _id = req.query._id;
-        // console.log('2',_id);
+
 
         var userdata1 = {};
         const user = await btServiceInstance.updateBtTable(req.body as IBtInputDTO, _id as any);
@@ -126,7 +126,7 @@ export default (app: Router) => {
       logger.debug('deleteBtById', req.query);
       try {
         var _id = req.query._id;
-        // console.log('0',_id);
+
 
         const btServiceInstance = Container.get(btService);
         const user = await btServiceInstance.deleteBtById(req, res, _id);
@@ -146,4 +146,38 @@ export default (app: Router) => {
       }
     },
   );
+
+  // route.delete(
+  //   '/deleteAllBt',
+  //   celebrate({
+  //     query: Joi.object({
+  //       _id: Joi.string(),
+  //     }),
+  //   }),
+  //   async (req: Request, res: Response, next: NextFunction) => {
+  //     const logger: Logger = Container.get('logger');
+  //     logger.debug('deleteBtById', req.query);
+  //     try {
+  //       var _id = req.query._id;
+
+
+  //       const btServiceInstance = Container.get(btService);
+  //       const user = await btServiceInstance.deleteAllBt(req, res, _id);
+
+  //       return res.status(201).json({
+  //         status: true,
+  //         data: user,
+  //         message: 'User deleted succesfully',
+  //       });
+  //     } catch (e) {
+  //       logger.error('🔥 error: %o', e);
+  //       return res.status(200).send({
+  //         status: false,
+  //         message: e.message,
+  //         error: e,
+  //       });
+  //     }
+  //   },
+  // );
+
 };

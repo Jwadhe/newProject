@@ -46,7 +46,7 @@ export default class AuthService {
   //     var getuser = await this.userModel.find({
   //       email: userInputDTO.email
   //     })
-  //     // console.log(getuser)
+
   //     if(getuser.length!=0){
   //       throw new Error('User already registered');
   //     }
@@ -86,7 +86,7 @@ export default class AuthService {
 
   // public async SignIn(email: string, password: string): Promise<{ user: IUser; token: string }> {
   //   const userRecord = await this.userModel.findOne({ email });
-  //   // console.log('1',userRecord);
+
     
   //   if (!userRecord) {
   //     throw new Error('User not registered');
@@ -96,7 +96,7 @@ export default class AuthService {
   //    */
   //   this.logger.silly('Checking password');
   //   const validPassword = await argon2.verify(userRecord.password, password);
-  //   // console.log('2',validPassword);
+
     
   //   if (validPassword) {
   //     this.logger.silly('Password is valid!');
@@ -109,7 +109,7 @@ export default class AuthService {
   //     /**
   //      * Easy as pie, you don't need passport.js anymore :)
   //      */
-  //     // console.log('3',user);
+
       
   //     return { user, token };
   //   } else {
@@ -119,15 +119,15 @@ export default class AuthService {
 
   // public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
   //   try {
-  //     console.log('1',_id);
+
   //     const userRecord1 = await this.userModel.findOne({ _id });
-  //     console.log('2',userRecord1)
+
   //     if (!userRecord1) {
   //       throw new Error('user not found');
   //     }
       
   //     const userRecord = await this.userModel.findByIdAndDelete({ _id  });
-  //       console.log('3',userRecord);
+
         
   //     if (!userRecord) {
   //       throw new Error('User not registered');

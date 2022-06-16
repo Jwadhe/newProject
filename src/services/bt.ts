@@ -84,4 +84,32 @@ export default class btService {
       throw e;
     }
   }
+
+  // public async deleteAllBt(req: any, res: any, _id: any): Promise<any> {
+  //   try {
+  //     try{
+  //       const userRecord1 = await this.btModel.find();
+  //       await this.btModel.collection.drop()
+  //   }catch{
+  //     userRecord1.map(async(item)=>{
+  //           const countryData1 = await this.btModel.create(item);
+  //         })
+  //         }
+
+  //     const userRecord = await this.btModel.findByIdAndDelete({ _id: _id });
+  //     //   console.log('2',userRecord);
+
+  //     if (!userRecord) {
+  //       throw new Error('User already deleted');
+  //     }
+  //     const user = userRecord.toObject();
+
+  //     return user;
+
+      
+  //   } catch (e) {
+  //     // this.logger.error(e);
+  //     throw e;
+  //   }
+  // }
 }

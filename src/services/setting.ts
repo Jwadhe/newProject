@@ -24,7 +24,7 @@ export default class settingService {
       var settingUser = await this.settingModel.find({
         ...ISettingInputDTO,
       });
-      console.log('find', settingUser);
+  
 
       const settingRecord = await this.settingModel.create({
         ...ISettingInputDTO,
@@ -44,16 +44,16 @@ export default class settingService {
 
   public async getCreateSetting(mobile: any): Promise<any> {
     try {
-      console.log('0', mobile);
+  
 
       const getmessage = await this.settingModel.findOne({ mobile: mobile });
-      console.log('1', getmessage);
+
 
       if (!getmessage) {
         throw new Error('no mobile found');
       }
       // const getMessageSet = getmessage;
-      // console.log('2',getMessageSet);
+
       return getmessage;
     } catch (e) {
       this.logger.error(e);
@@ -68,7 +68,7 @@ export default class settingService {
         { $set: ISettingInputDTO },
         { new: true },
       );
-      // console.log('1', settingRecord1);
+
       return settingRecord1;
     } catch (e) {
       this.logger.error(e);

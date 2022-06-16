@@ -52,14 +52,14 @@ export default class botService {
       throw new Error('no user found');
     }
     const getRecordbot = getRecord;
-    // console.log('1',getRecordbot);
+
     return getRecordbot;
   }
 
   // public async getablejoin(): Promise<any> {
   //   var _id = "629edb962cc02447cce9ff5d"
   //   var allbot = await this.messageModel.find()
-  //   // console.log('Alll--', allbot);
+
 
   //   const getRecord = await this.messageModel.aggregate([
 
@@ -76,13 +76,13 @@ export default class botService {
   //   },
   // ])
 
-  // // console.log("get Loookup---", getRecord);
+
 
   //   // if (!getRecord) {
   //   //   throw new Error('no user found');
   //   // }
   //   const getRecordbot = getRecord;
-  //   // // console.log('1',getRecordbot);
+
   //   return  getRecordbot;
   // }
 
@@ -106,7 +106,7 @@ export default class botService {
     try {
       console.log('1', _id);
       //   const userRecord1 = await this.botModel.findOne({ _id });
-      //   console.log('2',userRecord1)
+
       //   if (!userRecord1) {
       //     throw new Error('user not found');
       //   }

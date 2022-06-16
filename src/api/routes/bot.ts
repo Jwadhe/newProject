@@ -57,8 +57,6 @@ export default (app: Router) => {
         const getCreatBot = await botServiceInstance.getCreateBot();
         const getMessageSet = await messageServiceInstance.getCreateMessage();
 
-        // console.log("--MESSAGE SET RECORD>>>",getMessageSet)
-
         const botData = [];
         getCreatBot.map(item => {
           const { role, _id, title, mobile, createdAt, updatedAt } = item;
@@ -194,11 +192,44 @@ export default (app: Router) => {
          console.log('btId1>>>>>>>>>>>',btId);
 
         const botServiceInstance = Container.get(botService);
+        const messageServiceInstance = Container.get(messageService);
+
         const getBt = await botServiceInstance.getBot(btId as any);
+        const getMessageSet = await messageServiceInstance.getCreateMessage();
+
+
+        const botData = [];
+        getBt.map(item => {
+          const { role, _id, title, mobile, createdAt, updatedAt,btId } = item;
+
+          const msgSetData = [];
+          getMessageSet.map(itm => {
+            const { role, messageTitle, botId, createdAt, updatedAt } = itm;
+            if (_id == botId) {
+              msgSetData.push(itm);
+            }
+          });
+
+          let body = {
+            role,
+            _id,
+            title,
+            mobile,
+            createdAt,
+            updatedAt,
+            btId,
+            messageSet: msgSetData,
+          };
+          botData.push(body);
+        });
+        console.log('>>>>>',botData);
+        
+
+
         return res
           .json({
             status: true,
-            message: getBt,
+            message: botData,
           })
           .status(200);
       } catch (e) {
