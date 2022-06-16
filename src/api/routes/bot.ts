@@ -144,36 +144,6 @@ export default (app: Router) => {
     },
   );
 
-  route.post(
-    '/deletebot',
-    celebrate({
-      body: Joi.object({
-        _id: Joi.string(),
-      }),
-    }),
-    async (req: Request, res: Response, next: NextFunction) => {
-      // const logger: Logger = Container.get('logger');
-      // logger.debug('Calling Sign-In endpoint with body: %o', req.body);
-      try {
-        const _id = req.body._id;
-        const botServiceInstance = Container.get(botService);
-        const user = await botServiceInstance.deletebot(req, res, _id);
-
-        return res.status(201).json({
-          status: true,
-          data: user,
-          message: 'User deleted succesfully',
-        });
-      } catch (e) {
-        // logger.error('🔥 error: %o', e);
-        return res.status(200).send({
-          status: false,
-          message: e.message,
-          //   error: e,
-        });
-      }
-    },
-  );
 
   route.get(
     '/getBot',
@@ -229,6 +199,39 @@ export default (app: Router) => {
             message: botData,
           })
           .status(201);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
+
+  route.delete(
+    '/deletebot',
+    celebrate({
+      query: Joi.object({
+        _id: Joi.string(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('deleteBtById', req.query);
+      try {
+        var _id = req.query._id;
+
+
+        const btServiceInstance = Container.get(botService);
+        const user = await btServiceInstance.deletebot(req, res, _id);
+
+        return res.status(201).json({
+          status: true,
+          data: user,
+          message: 'User deleted succesfully',
+        });
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({

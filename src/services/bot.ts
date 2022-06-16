@@ -102,34 +102,6 @@ export default class botService {
     }
   }
 
-  public async deletebot(req: any, res: any, _id: any): Promise<any> {
-    try {
-      console.log('1', _id);
-      //   const userRecord1 = await this.botModel.findOne({ _id });
-
-      //   if (!userRecord1) {
-      //     throw new Error('user not found');
-      //   }
-
-      const userRecord = await this.botModel.findByIdAndDelete({ _id });
-      Promise.all([
-        new Promise((resolve, reject) => {
-          userRecord;
-        }).then(e => console.log(e)),
-      ]);
-
-      console.log('2', userRecord);
-
-      if (!userRecord) {
-        throw new Error('User not registered');
-      }
-
-      return res.status(201).send({ Message: 'user deleted successfully' });
-    } catch (e) {
-      // this.logger.error(e);
-      throw e;
-    }
-  }
 
   public async getBot(btId: any): Promise<any> {
     try {
@@ -140,6 +112,25 @@ export default class botService {
       return getmessage;
     } catch (e) {
       this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async deletebot(req: any, res: any, _id: any): Promise<any> {
+    try {
+      //   console.log('1',_id);
+
+      const userRecord = await this.botModel.findByIdAndDelete({ _id: _id });
+      //   console.log('2',userRecord);
+
+      if (!userRecord) {
+        throw new Error('User already deleted');
+      }
+      const user = userRecord.toObject();
+
+      return user;
+    } catch (e) {
+      // this.logger.error(e);
       throw e;
     }
   }
