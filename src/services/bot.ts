@@ -38,6 +38,16 @@ export default class botService {
         ...IBotInputDTO,
       });
 
+      // if(botRecord){
+      //   console.log('1>>>>>>>',botRecord);
+      //   return { botRecord };
+        
+      // }else{
+      //   console.log('2>>>>>>>>>>>');
+      //   throw new Error('string not created');
+        
+      // }
+
       const user = botRecord.toObject();
       return { user };
     } catch (e) {
@@ -104,6 +114,19 @@ export default class botService {
 
 
   public async getBot(btId: any): Promise<any> {
+    try {
+      const getmessage = await this.botModel.find({ btId: btId });
+      if (!getmessage) {
+        throw new Error('no user found');
+      }
+      return getmessage;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  public async getBotByBtId(btId: any): Promise<any> {
     try {
       const getmessage = await this.botModel.find({ btId: btId });
       if (!getmessage) {

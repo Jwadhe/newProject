@@ -53,12 +53,11 @@ export default (app: Router) => {
       try {
         const messageServiceInstance = Container.get(messageService);
         const getCreatBot = await messageServiceInstance.getCreateMessage();
-        return res
-          .json({
-            status: true,
-            message: getCreatBot,
-          })
-          .status(200);
+        return res.status(201).send({
+          status: true,
+          message: getCreatBot,          
+        });
+         
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
@@ -116,15 +115,12 @@ export default (app: Router) => {
       try {
         var botId = req.query.botId;
 
-
         const messageServiceInstance = Container.get(messageService);
-        const getCreatBot = await messageServiceInstance.getByBotId(botId as any);
-        return res
-          .json({
-            status: true,
-            message: getCreatBot,
-          })
-          .status(200);
+        const getByBotId = await messageServiceInstance.getByBotId(botId as any);
+        return res.status(201).send({
+          status: true,
+          message: getByBotId,          
+        });
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({

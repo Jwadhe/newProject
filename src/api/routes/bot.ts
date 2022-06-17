@@ -169,11 +169,11 @@ export default (app: Router) => {
 
 
         const botData = [];
-        getBt.map(item => {
+        getBt.map(async(item) => {
           const { role, _id, title, mobile, createdAt, updatedAt,btId } = item;
 
           const msgSetData = [];
-          getMessageSet.map(itm => {
+          getMessageSet.map(async(itm) => {
             const { role, messageTitle, botId, createdAt, updatedAt } = itm;
             if (_id == botId) {
               msgSetData.push(itm);
@@ -199,6 +199,40 @@ export default (app: Router) => {
             message: botData,
           })
           .status(201);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
+
+  route.get(
+    '/getBotByBtId',
+    // middlewares.isAuth,
+    celebrate({
+      query: Joi.object({
+        btId: Joi.string(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getBot endpoint with query: %o', req.query);
+
+      try {
+        var btId = req.query.btId;
+         console.log('btId1>>>>>>>>>>>',btId);
+
+        const botServiceInstance = Container.get(botService);
+        const getBt = await botServiceInstance.getBotByBtId(btId as any);
+
+        return res.status(201).send({
+          status: true,
+          message: getBt,
+        });
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({

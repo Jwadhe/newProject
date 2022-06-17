@@ -36,12 +36,18 @@ export default class messageService {
   }
 
   public async getCreateMessage(): Promise<any> {
+    try {
     const getmessage = await this.messageModel.find();
     if (!getmessage) {
       throw new Error('no user found');
     }
     const getMessageSet = getmessage;
     return getMessageSet;
+  }
+ catch (e) {
+  this.logger.error(e);
+  throw e;
+}
   }
 
   public async deleteMessageSet(req: any, res: any, botId: any): Promise<any> {
