@@ -192,7 +192,6 @@ export default (app: Router) => {
           };
           botData.push(body);
         });
-        console.log('>>>>>',botData); 
         return res
           .json({
             status: true,
@@ -223,9 +222,7 @@ export default (app: Router) => {
       logger.debug('Calling getBot endpoint with query: %o', req.query);
 
       try {
-        var btId = req.query.btId;
-         console.log('btId1>>>>>>>>>>>',btId);
-
+        var btId = req.query.btId
         const botServiceInstance = Container.get(botService);
         const getBt = await botServiceInstance.getBotByBtId(btId as any);
 
@@ -256,11 +253,8 @@ export default (app: Router) => {
       logger.debug('deleteBtById', req.query);
       try {
         var _id = req.query._id;
-
-
         const btServiceInstance = Container.get(botService);
         const user = await btServiceInstance.deletebot(req, res, _id);
-
         return res.status(201).json({
           status: true,
           data: user,

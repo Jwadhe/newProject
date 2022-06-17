@@ -51,14 +51,12 @@ export default class btService {
       throw new Error('no user found');
     }
     const getRecordbot = getRecord;
-    // console.log('1',getRecordbot);
     return getRecordbot;
   }
 
   public async updateBtTable(IBtInputDTO: IBtInputDTO, _id: any): Promise<any> {
     try {
       const btRecord = await this.btModel.findByIdAndUpdate({ _id }, { $set: IBtInputDTO }, { new: true });
-      // console.log('1', settingRecord1);
       return btRecord;
     } catch (e) {
       this.logger.error(e);
@@ -68,11 +66,7 @@ export default class btService {
 
   public async deleteBtById(req: any, res: any, _id: any): Promise<any> {
     try {
-      //   console.log('1',_id);
-
       const userRecord = await this.btModel.findByIdAndDelete({ _id: _id });
-      //   console.log('2',userRecord);
-
       if (!userRecord) {
         throw new Error('User already deleted');
       }

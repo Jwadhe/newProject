@@ -17,14 +17,13 @@ export default class settingService {
     @Inject('messageModel') private messageModel: Models.messageModel,
     // private mailer: MailerService,
     @Inject('logger') private logger, // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
-  ) {}
+  ) { }
 
   public async createSetting(ISettingInputDTO: ISettingInputDTO): Promise<any> {
     try {
       var settingUser = await this.settingModel.find({
         ...ISettingInputDTO,
       });
-  
 
       const settingRecord = await this.settingModel.create({
         ...ISettingInputDTO,
@@ -44,10 +43,7 @@ export default class settingService {
 
   public async getCreateSetting(mobile: any): Promise<any> {
     try {
-  
-
       const getmessage = await this.settingModel.findOne({ mobile: mobile });
-
 
       if (!getmessage) {
         throw new Error('no mobile found');

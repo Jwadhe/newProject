@@ -44,8 +44,7 @@ export default class botService {
         
       // }else{
       //   console.log('2>>>>>>>>>>>');
-      //   throw new Error('string not created');
-        
+      //   throw new Error('string not created');        
       // }
 
       const user = botRecord.toObject();
@@ -97,14 +96,8 @@ export default class botService {
   // }
 
   public async updatebot(IBotInputDTO: IBotInputDTO, _id: any): Promise<any> {
-    try {
-      console.log(_id);
-
+    try {     
       const userRecord1 = await this.botModel.findByIdAndUpdate({ _id }, { $set: IBotInputDTO }, { new: true });
-
-      // const usermodel = await this.botModel.find()
-      console.log('1', userRecord1);
-
       return userRecord1;
     } catch (e) {
       this.logger.error(e);
@@ -141,16 +134,11 @@ export default class botService {
 
   public async deletebot(req: any, res: any, _id: any): Promise<any> {
     try {
-      //   console.log('1',_id);
-
       const userRecord = await this.botModel.findByIdAndDelete({ _id: _id });
-      //   console.log('2',userRecord);
-
       if (!userRecord) {
         throw new Error('User already deleted');
       }
       const user = userRecord.toObject();
-
       return user;
     } catch (e) {
       // this.logger.error(e);
