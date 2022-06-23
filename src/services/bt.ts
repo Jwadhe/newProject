@@ -44,12 +44,10 @@ export default class btService {
       throw e;
     }
   }
-
+    
   public async getBt(): Promise<any> {
     const getRecord = await this.btModel.find();
-    if (!getRecord) {
-      throw new Error('no user found');
-    }
+
     const getRecordbot = getRecord;
     return getRecordbot;
   }

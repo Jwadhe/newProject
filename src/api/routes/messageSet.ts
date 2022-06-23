@@ -14,6 +14,11 @@ export default (app: Router) => {
   route.post(
     '/createMessage',
     // middlewares.isAuth,
+    // celebrate({
+    //   body: Joi.object({
+    //     // { msgList: [{botId: Joi.string(), messageTitle:Joi.string()}]}
+    //   }),
+    // }),
 
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');

@@ -51,7 +51,9 @@ export default (app: Router) => {
       try {
         const btServiceInstance = Container.get(btService);
         const getCreatBot = await btServiceInstance.getBt();
-
+        if (!getCreatBot || getCreatBot.length == 0) {
+          return res.status(200).json({ message: "No Record found" })
+        }
         return res
           .json({
             status: true,
@@ -154,7 +156,7 @@ export default (app: Router) => {
       const logger: Logger = Container.get('logger');
       logger.debug('deleteBtById', req.query);
       try {
-       
+
         const btServiceInstance = Container.get(btService);
         const user = await btServiceInstance.deleteAllBt();
 
