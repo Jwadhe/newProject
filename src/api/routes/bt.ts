@@ -26,7 +26,7 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling createbot endpoint with body: %o', req.body);
+      logger.debug('Calling createBt endpoint with body: %o', req.body);
       try {
         const btServiceInstance = Container.get(btService);
         const user = await btServiceInstance.createbt(req.body as IBtInputDTO);
@@ -47,19 +47,18 @@ export default (app: Router) => {
     //  middlewares.isAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getCreatBot endpoint with body: %o', req.query);
+      logger.debug('Calling getBt endpoint with query: %o', req.query);
       try {
         const btServiceInstance = Container.get(btService);
-        const getCreatBot = await btServiceInstance.getBt();
+        const getCreatBot = await btServiceInstance.getBt(req, res);
+        
         if (!getCreatBot || getCreatBot.length == 0) {
-          return res.status(200).json({ message: "No Record found" })
+          return res.status(200).json({ message: 'No Record found' });
         }
-        return res
-          .json({
-            status: true,
-            message: getCreatBot,
-          })
-          .status(201);
+        return res.status(201).json({
+          status: true,
+          message: getCreatBot,
+        });
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
@@ -85,12 +84,11 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('updateBtTable: %o', req.body);
+      logger.debug('Calling updateBtTable endpoint with body : %o', req.body);
 
       try {
         const btServiceInstance = Container.get(btService);
         var _id = req.query._id;
-
 
         var userdata1 = {};
         const user = await btServiceInstance.updateBtTable(req.body as IBtInputDTO, _id as any);
@@ -125,10 +123,9 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('deleteBtById', req.query);
+      logger.debug('Calling deleteBtById endpoint with query ', req.query);
       try {
         var _id = req.query._id;
-
 
         const btServiceInstance = Container.get(btService);
         const user = await btServiceInstance.deleteBtById(req, res, _id);
@@ -154,9 +151,8 @@ export default (app: Router) => {
 
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('deleteBtById', req.query);
+      logger.debug('Calling deleteBtById endpoint with query', req.query);
       try {
-
         const btServiceInstance = Container.get(btService);
         const user = await btServiceInstance.deleteAllBt();
 
@@ -175,5 +171,4 @@ export default (app: Router) => {
       }
     },
   );
-
 };

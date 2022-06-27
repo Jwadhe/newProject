@@ -30,7 +30,7 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling createbot endpoint with body: %o', req.body);
+      logger.debug('Calling createSetting endpoint with body: %o', req.body);
       try {
         const settingServiceInstance = Container.get(settingService);
         const { user } = await settingServiceInstance.createSetting(req.body as ISettingInputDTO);
@@ -56,23 +56,22 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getCreatBot endpoint with body: %o', req.query);
+      logger.debug('Calling getCreateSetting endpoint with query: %o', req.query);
 
       try {
         var mobile = req.query.mobile;
-
+        // console.log('1',mobile);
 
         const settingServiceInstance = Container.get(settingService);
         const getCreatBot = await settingServiceInstance.getCreateSetting(mobile as any);
-        return res
-          .json({
-            status: true,
-            message: getCreatBot,
-          })
-          .status(200);
+
+        return res.status(200).json({
+          status: true,
+          message: getCreatBot,
+        });
       } catch (e) {
         logger.error('🔥 error: %o', e);
-        return res.status(200).send({
+        return res.status(200).json({
           status: false,
           message: e.message,
           error: e,
@@ -103,12 +102,11 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('updateSettingTable: %o', req.body);
+      logger.debug(' Calling updateSettingTable endpoint with body: %o', req.body);
 
       try {
         const settingServiceInstance = Container.get(settingService);
         var _id = req.query._id;
-
 
         var userdata1 = {};
         const user = await settingServiceInstance.updateSettingTable(req.body as ISettingInputDTO, _id as any);

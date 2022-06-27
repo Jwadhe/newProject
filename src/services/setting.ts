@@ -12,9 +12,7 @@ import { Request } from 'express';
 export default class settingService {
   constructor(
     @Inject('settingModel') private settingModel: Models.settingModel,
-    @Inject('botModel') private botModel: Models.botModel,
-    @Inject('userModel') private userModel: Models.UserModel,
-    @Inject('messageModel') private messageModel: Models.messageModel,
+
     // private mailer: MailerService,
     @Inject('logger') private logger, // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }

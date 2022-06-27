@@ -25,10 +25,8 @@ export default (app: Router) => {
       logger.debug('Calling createMessage endpoint with body: %o', req.body.msgList);
 
       try {
-
         var msgList = req.body.msgList;
         var botId = req?.body?.msgList?.[0]?.botId;
-
 
         const messageServiceInstanceD = Container.get(messageService);
         const userD = await messageServiceInstanceD.deleteMessageSet(req, res, botId);
@@ -54,15 +52,14 @@ export default (app: Router) => {
     //  middlewares.isAuth,
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getCreatBot endpoint with body: %o', req.body);
+      logger.debug('Calling getCreateMessage endpoint with body: %o', req.body);
       try {
         const messageServiceInstance = Container.get(messageService);
-        const getCreatBot = await messageServiceInstance.getCreateMessage();
+        const getCreatBot = await messageServiceInstance.getCreateMessage(req , res);
         return res.status(201).send({
           status: true,
-          message: getCreatBot,          
+          message: getCreatBot,
         });
-         
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
@@ -115,7 +112,7 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getCreatBot endpoint with body: %o', req.query);
+      logger.debug('Calling getByBotId endpoint with query: %o', req.query);
 
       try {
         var botId = req.query.botId;
@@ -124,7 +121,7 @@ export default (app: Router) => {
         const getByBotId = await messageServiceInstance.getByBotId(botId as any);
         return res.status(201).send({
           status: true,
-          message: getByBotId,          
+          message: getByBotId,
         });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -146,10 +143,9 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling Sign-In endpoint with body: %o', req.query);
+      logger.debug('Calling deleteById endpoint with query: %o', req.query);
       try {
         var _id = req.query._id;
-
 
         const messageServiceInstance = Container.get(messageService);
         const user = await messageServiceInstance.deleteById(req, res, _id);

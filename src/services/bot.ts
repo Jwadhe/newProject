@@ -17,10 +17,10 @@ import { resolve } from 'path';
 @Service()
 export default class botService {
   constructor(
-    @Inject('btModel') private btModel: Models.btModel,
+
     @Inject('botModel') private botModel: Models.botModel,
     @Inject('userModel') private userModel: Models.UserModel,
-    @Inject('messageModel') private messageModel: Models.messageModel,
+  
     // private mailer: MailerService,
     @Inject('logger') private logger, // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
@@ -121,9 +121,13 @@ export default class botService {
 
   public async getBotByBtId(btId: any): Promise<any> {
     try {
+      console.log('btId',btId);
+      
       const getmessage = await this.botModel.find({ btId: btId });
+      console.log('>>>>>>1',getmessage);
+      
       if (!getmessage) {
-        throw new Error('no user found');
+        throw new Error('no BotByBtId found');
       }
       return getmessage;
     } catch (e) {
@@ -136,7 +140,7 @@ export default class botService {
     try {
       const userRecord = await this.botModel.findByIdAndDelete({ _id: _id });
       if (!userRecord) {
-        throw new Error('User already deleted');
+        throw new Error('Bot already deleted');
       }
       const user = userRecord.toObject();
       return user;

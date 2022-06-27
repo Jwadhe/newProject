@@ -55,7 +55,7 @@ export default (app: Router) => {
         const botServiceInstance = Container.get(botService);
         const messageServiceInstance = Container.get(messageService);
         const getCreatBot = await botServiceInstance.getCreateBot();
-        const getMessageSet = await messageServiceInstance.getCreateMessage();
+        const getMessageSet = await messageServiceInstance.getCreateMessage(req , res);
 
         const botData = [];
         getCreatBot.map(item => {
@@ -114,7 +114,7 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('updatebot: %o', req.body);
+      logger.debug('Calling updatebot endpoint with body: %o', req.body);
 
       var currentUser = req.currentUser;
       console.log(currentUser);
@@ -144,7 +144,6 @@ export default (app: Router) => {
     },
   );
 
-
   route.get(
     '/getBot',
     // middlewares.isAuth,
@@ -159,21 +158,20 @@ export default (app: Router) => {
 
       try {
         var btId = req.query.btId;
-         console.log('btId1>>>>>>>>>>>',btId);
+        console.log('btId1>>>>>>>>>>>', btId);
 
         const botServiceInstance = Container.get(botService);
         const messageServiceInstance = Container.get(messageService);
 
         const getBt = await botServiceInstance.getBot(btId as any);
-        const getMessageSet = await messageServiceInstance.getCreateMessage();
-
+        const getMessageSet = await messageServiceInstance.getCreateMessage(req , res);
 
         const botData = [];
-        getBt.map(async(item) => {
-          const { role, _id, title, mobile, createdAt, updatedAt,btId } = item;
+        getBt.map(async item => {
+          const { role, _id, title, mobile, createdAt, updatedAt, btId } = item;
 
           const msgSetData = [];
-          getMessageSet.map(async(itm) => {
+          getMessageSet.map(async itm => {
             const { role, messageTitle, botId, createdAt, updatedAt } = itm;
             if (_id == botId) {
               msgSetData.push(itm);
@@ -219,12 +217,16 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getBot endpoint with query: %o', req.query);
+      logger.debug('Calling getBotByBtId endpoint with query: %o', req.query);
 
       try {
-        var btId = req.query.btId
+        var btId = req.query.btId;
+        console.log('1', btId);
+        
         const botServiceInstance = Container.get(botService);
         const getBt = await botServiceInstance.getBotByBtId(btId as any);
+        console.log('2',getBt);
+        
 
         return res.status(201).send({
           status: true,
@@ -250,7 +252,7 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('deleteBtById', req.query);
+      logger.debug('Calling deleteBtById endpoint with query', req.query);
       try {
         var _id = req.query._id;
         const btServiceInstance = Container.get(botService);
@@ -258,7 +260,7 @@ export default (app: Router) => {
         return res.status(201).json({
           status: true,
           data: user,
-          message: 'User deleted succesfully',
+          message: 'Bot deleted succesfully',
         });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -270,6 +272,4 @@ export default (app: Router) => {
       }
     },
   );
-
-
 };

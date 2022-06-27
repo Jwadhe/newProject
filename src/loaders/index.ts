@@ -23,7 +23,7 @@ export default async ({ expressApp }) => {
     // Notice the require syntax and the '.default'
     model: require('../models/user').default,
   };
-
+    
   const botModel = {
     name: 'botModel',
     // Notice the require syntax and the '.default'

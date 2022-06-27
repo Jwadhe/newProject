@@ -18,9 +18,7 @@ import { resolve } from 'path';
 export default class btService {
   constructor(
     @Inject('btModel') private btModel: Models.btModel,
-    @Inject('botModel') private botModel: Models.botModel,
-    @Inject('userModel') private userModel: Models.UserModel,
-    @Inject('messageModel') private messageModel: Models.messageModel,
+
     // private mailer: MailerService,
     @Inject('logger') private logger, // @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
@@ -45,7 +43,7 @@ export default class btService {
     }
   }
     
-  public async getBt(): Promise<any> {
+  public async getBt(req:any , res:any): Promise<any> {
     const getRecord = await this.btModel.find();
 
     const getRecordbot = getRecord;
