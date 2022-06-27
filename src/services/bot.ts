@@ -27,13 +27,6 @@ export default class botService {
 
   public async createbot(IBotInputDTO: IBotInputDTO): Promise<any> {
     try {
-      var botuser = await this.botModel.findOne({
-        title: IBotInputDTO.title,
-      });
-      if (botuser) {
-        throw new Error('Bot already created');
-      }
-
       const botRecord = await this.botModel.create({
         ...IBotInputDTO,
       });
