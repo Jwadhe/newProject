@@ -51,7 +51,7 @@ export default class botService {
   public async getCreateBot(): Promise<any> {
     const getRecord = await this.botModel.find();
     if (!getRecord) {
-      throw new Error('no user found');
+      throw new Error('no Bot found');
     }
     const getRecordbot = getRecord;
 
@@ -103,7 +103,7 @@ export default class botService {
     try {
       const getmessage = await this.botModel.find({ btId: btId });
       if (!getmessage) {
-        throw new Error('no user found');
+        throw new Error('no Bot found');
       }
       return getmessage;
     } catch (e) {
@@ -120,7 +120,7 @@ export default class botService {
       console.log('>>>>>>1',getmessage);
       
       if (!getmessage) {
-        throw new Error('no BotByBtId found');
+        throw new Error('BotByBtId not found');
       }
       return getmessage;
     } catch (e) {

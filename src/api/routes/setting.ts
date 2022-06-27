@@ -64,6 +64,8 @@ export default (app: Router) => {
 
         const settingServiceInstance = Container.get(settingService);
         const getCreatBot = await settingServiceInstance.getCreateSetting(mobile as any);
+        console.log('>>>',getCreatBot);
+        
 
         return res.status(200).json({
           status: true,
@@ -113,13 +115,13 @@ export default (app: Router) => {
         if (!user) {
           return res.status(400).json({
             status: false,
-            message: 'user not update',
+            message: 'Setting not update',
           });
         }
         return res.status(201).json({
           status: true,
           data: user,
-          message: 'user updated successfully',
+          message: 'Setting updated successfully',
         });
       } catch (e) {
         logger.error('🔥 error: %o', e);

@@ -4,9 +4,6 @@ import { ObjectId } from 'mongoose';
 
 @Service()
 export default class messageService {
-  toObject() {
-    throw new Error('Method not implemented.');
-  }
 
   constructor(
     @Inject('messageModel') private messageModel: Models.messageModel,
@@ -24,7 +21,7 @@ export default class messageService {
         ...IMessageInputDTO,
       });
       if (!messageRecord) {
-        throw new Error('User message cannot be created');
+        throw new Error('Message not generated');
       }
       const user = messageRecord.toObject();
 
@@ -39,7 +36,7 @@ export default class messageService {
     try {
     const getmessage = await this.messageModel.find();
     if (!getmessage) {
-      throw new Error('no user found');
+      throw new Error('Message Not Found');
     }
     const getMessageSet = getmessage;
 
@@ -80,7 +77,7 @@ export default class messageService {
     try {
       const getmessage = await this.messageModel.find({ botId: botId });
       if (!getmessage) {
-        throw new Error('no user found');
+        throw new Error('BotId Not found');
       }
       return getmessage;
     } catch (e) {
@@ -96,7 +93,7 @@ export default class messageService {
 
 
       if (!userRecord1) {
-        throw new Error('User already deleted');
+        throw new Error('Already deleted');
       }
       const user = userRecord1.toObject();
 

@@ -35,7 +35,7 @@ export default (app: Router) => {
         msgList.map(async item => {
           await messageServiceInstance.createMessage(item as IMessageInputDTO);
         });
-        return res.status(201).json({ message: 'Record created successfully' });
+        return res.status(201).json({ message: 'Message created successfully' });
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
@@ -89,7 +89,7 @@ export default (app: Router) => {
         return res.status(201).json({
           status: true,
           data: user,
-          message: 'User deleted succesfully',
+          message: 'MessageSet deleted succesfully',
         });
       } catch (e) {
         // logger.error('🔥 error: %o', e);

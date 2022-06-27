@@ -28,7 +28,7 @@ export default class btService {
       var title = IBtInputDTO.title;
       var userRecord1 = await this.btModel.findOne({ title });
       if (userRecord1) {
-        throw new Error('User already Created');
+        throw new Error('Bt already Created');
       }
 
       const btRecord = await this.btModel.create({
@@ -64,7 +64,7 @@ export default class btService {
     try {
       const userRecord = await this.btModel.findByIdAndDelete({ _id: _id });
       if (!userRecord) {
-        throw new Error('User already deleted');
+        throw new Error('Bt already deleted');
       }
       const user = userRecord.toObject();
 
@@ -84,7 +84,7 @@ export default class btService {
      
           }catch (e) {
       // this.logger.error(e);
-      throw new Error('Record not deleted');
+      throw new Error('BtRecord not deleted');
       throw e;
     }
   }

@@ -28,7 +28,7 @@ export default class settingService {
       });
 
       if (!settingRecord) {
-        throw new Error('User cannot be created');
+        throw new Error('Setting cannot be created');
       }
 
       const user = settingRecord.toObject();
