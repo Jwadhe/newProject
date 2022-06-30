@@ -272,4 +272,30 @@ export default (app: Router) => {
       }
     },
   );
+
+  route.delete(
+    '/deleteAllBot',
+
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling deleteAllBot endpoint with query', req.query);
+      try {
+        const btServiceInstance = Container.get(botService);
+        const user = await btServiceInstance.deleteAllBot();
+
+        return res.status(201).json({
+          status: true,
+          data: user,
+          message: 'Bot Record deleted succesfully',
+        });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
 };

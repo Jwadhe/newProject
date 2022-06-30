@@ -142,4 +142,18 @@ export default class botService {
       throw e;
     }
   }
+
+  public async deleteAllBot(): Promise<any> {
+    try {
+     
+        const userRecord1 = await this.botModel.find();
+        var drop =   await this.botModel.collection.drop()      
+        console.log('1',drop);        
+     
+          }catch (e) {
+      // this.logger.error(e);
+      throw new Error('Bot Record not deleted');
+      throw e;
+    }
+  }
 }

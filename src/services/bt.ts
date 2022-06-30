@@ -84,7 +84,7 @@ export default class btService {
      
           }catch (e) {
       // this.logger.error(e);
-      throw new Error('BtRecord not deleted');
+      throw new Error('Bt Record not deleted');
       throw e;
     }
   }

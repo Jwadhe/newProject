@@ -32,7 +32,7 @@ export default (app: Router) => {
       const logger: Logger = Container.get('logger');
       logger.debug('Calling createSetting endpoint with body: %o', req.body);
       try {
-        const settingServiceInstance = Container.get(settingService);
+        const settingServiceInstance = Container.get(settingService); 
         const { user } = await settingServiceInstance.createSetting(req.body as ISettingInputDTO);
         return res.status(201).json({ user });
       } catch (e) {
@@ -133,4 +133,34 @@ export default (app: Router) => {
       }
     },
   );
+
+  route.delete(
+    '/deleteAllSetting',
+
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling deleteAllSetting endpoint with query', req.query);
+      try {
+        const btServiceInstance = Container.get(settingService);
+        const user = await btServiceInstance.deleteAllSetting();
+
+        return res.status(201).json({
+          status: true,
+          data: user,
+          message: 'Setting Record deleted succesfully',
+        });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
+
+
+
+
 };

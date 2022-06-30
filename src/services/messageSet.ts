@@ -15,15 +15,16 @@ export default class messageService {
 
   public async createMessage(IMessageInputDTO: IMessageInputDTO): Promise<any> {
 
-
     try {
       const messageRecord = await this.messageModel.create({
         ...IMessageInputDTO,
       });
+  
       if (!messageRecord) {
         throw new Error('Message not generated');
       }
       const user = messageRecord.toObject();
+      console.log('messageRecord',user)
 
       return { user };
     } catch (e) {
@@ -103,4 +104,28 @@ export default class messageService {
       throw e;
     }
   }
+
+  public async deleteAllMessageSet(): Promise<any> {
+    try {
+     
+        const userRecord1 = await this.messageModel.find();
+        var drop =   await this.messageModel.collection.drop()      
+        console.log('1',drop);        
+     
+          }catch (e) {
+      // this.logger.error(e);
+      throw new Error('MessageSet Record not deleted');
+      throw e;
+    }
+  }
+
+  public async updateMessageSet(IMessageInputDTO: IMessageInputDTO, _id: any): Promise<any> {
+    try {
+    const btRecord = await this.messageModel.findByIdAndUpdate({ _id }, { $set: IMessageInputDTO }, { new: true });
+    return btRecord;
+    } catch (e) {
+    this.logger.error(e);
+    throw e;
+    }
+    }
 }

@@ -51,7 +51,7 @@ export default (app: Router) => {
       try {
         const btServiceInstance = Container.get(btService);
         const getCreatBot = await btServiceInstance.getBt(req, res);
-        
+
         if (!getCreatBot || getCreatBot.length == 0) {
           return res.status(200).json({ message: 'No Record found' });
         }
@@ -133,7 +133,7 @@ export default (app: Router) => {
         return res.status(201).json({
           status: true,
           data: user,
-          message: 'User deleted succesfully',
+          message: 'Bt deleted succesfully',
         });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -159,7 +159,7 @@ export default (app: Router) => {
         return res.status(201).json({
           status: true,
           data: user,
-          message: 'User Record deleted succesfully',
+          message: 'Bt Record deleted succesfully',
         });
       } catch (e) {
         logger.error('🔥 error: %o', e);

@@ -58,10 +58,14 @@ export default class settingService {
   public async updateSettingTable(ISettingInputDTO: ISettingInputDTO, _id: any): Promise<any> {
     try {
       const settingRecord1 = await this.settingModel.findByIdAndUpdate(
-        { _id },
-        { $set: ISettingInputDTO },
+         _id ,
+        {...ISettingInputDTO },
         { new: true },
       );
+
+      // var settingRecord2 = await this.settingModel.findById({ _id },)
+      // console.log('>>>>>>>>',settingRecord2);
+      
 
       return settingRecord1;
     } catch (e) {
@@ -69,4 +73,21 @@ export default class settingService {
       throw e;
     }
   }
+
+  public async deleteAllSetting(): Promise<any> {
+    try {
+     
+        const SettingRecord = await this.settingModel.find();
+        var drop =   await this.settingModel.collection.drop()      
+        console.log('1',drop);        
+     
+          }catch (e) {
+      // this.logger.error(e);
+      throw new Error('Setting Record not deleted');
+      throw e;
+    }
+  }
+
+  
 }
+ 

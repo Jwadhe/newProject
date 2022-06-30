@@ -35,6 +35,7 @@ export default (app: Router) => {
         msgList.map(async item => {
           await messageServiceInstance.createMessage(item as IMessageInputDTO);
         });
+        
         return res.status(201).json({ message: 'Message created successfully' });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -165,4 +166,72 @@ export default (app: Router) => {
       }
     },
   );
+
+  route.delete(
+    '/deleteAllMessageSet',
+
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling deleteAllMessageSet endpoint with query', req.query);
+      try {
+        const btServiceInstance = Container.get(messageService);
+        const user = await btServiceInstance.deleteAllMessageSet();
+
+        return res.status(201).json({
+          status: true,
+          data: user,
+          message: 'MessageSet Record deleted succesfully',
+        });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return res.status(200).send({
+          status: false,
+          message: e.message,
+          error: e,
+        });
+      }
+    },
+  );
+
+  route.put(
+    '/updateMessageSet',
+    // middlewares.isAuth,
+    // middlewares.attachCurrentUser,
+    // celebrate({
+    // body: Joi.object({
+    // title: Joi.string(),
+    // botId:Joi.string(),
+    // msgList:Joi.string(),
+    // }),
+    // query: Joi.object({
+    // _id: Joi.string(),
+    // }),
+    // }),
+    async (req: Request, res: Response, next: NextFunction) => {
+    const logger: Logger = Container.get('logger');
+    logger.debug('updateMessageSet: %o', req.body);
+    
+    try {
+    const messageServiceInstance = Container.get(messageService);
+    var _id = req.query._id;
+    var userdata1 = {};
+    const user = await messageServiceInstance.updateMessageSet(req.body as IMessageInputDTO, _id as any);
+    if (!user) {
+    return res.status(400).json({
+    status: false,
+    message: 'user not update',
+    });
+    }
+    return res.status(201).json({
+    status: true,
+    data: user,
+    message: 'user updated successfully',
+    });
+    } catch (e) {
+    logger.error('🔥 error: %o', e);
+    return res.status(200).send({
+    status: false,
+    message: e.message,
+    error: e,
+    });}},);
 };
