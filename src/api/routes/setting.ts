@@ -66,8 +66,7 @@ export default (app: Router) => {
         const getCreatBot = await settingServiceInstance.getCreateSetting(mobile as any);
         console.log('>>>',getCreatBot);
         
-
-        return res.status(200).json({
+        return res.status(201).json({
           status: true,
           message: getCreatBot,
         });
