@@ -219,13 +219,13 @@ export default (app: Router) => {
     if (!user) {
     return res.status(400).json({
     status: false,
-    message: 'user not update',
+    message: 'MessageSet not update',
     });
     }
     return res.status(201).json({
     status: true,
     data: user,
-    message: 'user updated successfully',
+    message: 'MessageSet updated successfully',
     });
     } catch (e) {
     logger.error('🔥 error: %o', e);

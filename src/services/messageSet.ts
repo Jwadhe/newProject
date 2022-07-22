@@ -24,7 +24,7 @@ export default class messageService {
         throw new Error('Message not generated');
       }
       const user = messageRecord.toObject();
-      console.log('messageRecord',user)
+      // console.log('messageRecord',user)
 
       return { user };
     } catch (e) {
@@ -128,4 +128,5 @@ export default class messageService {
     throw e;
     }
     }
+
 }
