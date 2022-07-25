@@ -60,7 +60,7 @@ export default (app: Router) => {
 
       try {
         var mobile = req.query.mobile;
-        // console.log('1',mobile);
+        console.log('1',mobile);
 
         const settingServiceInstance = Container.get(settingService);
         const getCreatBot = await settingServiceInstance.getCreateSetting(mobile as any);
