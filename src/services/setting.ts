@@ -41,12 +41,12 @@ export default class settingService {
 
   public async getCreateSetting(mobile: any): Promise<any> {
     try {
-      const getmessage = await this.settingModel.findOne({ mobile: mobile });
+      const getmessage = await this.settingModel.findOne({ mobile: mobile })
 
       if (!getmessage) {
         throw new Error('no mobile found');
       }
-      // const getMessageSet = getmessage;
+      const getMessageSet = getmessage;
 
       return getmessage;
     } catch (e) {
@@ -64,8 +64,7 @@ export default class settingService {
       );
 
       // var settingRecord2 = await this.settingModel.findById({ _id },)
-      // console.log('>>>>>>>>',settingRecord2);
-      
+      // console.log('>>>>>>>>',settingRecord2);      
 
       return settingRecord1;
     } catch (e) {
