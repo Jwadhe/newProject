@@ -12,7 +12,7 @@ export default ({ mongoConnection, models }: { mongoConnection; models: { name: 
     });
 
     const agendaInstance = agendaFactory({ mongoConnection });
-    const mgInstance = new Mailgun(formData);
+    const mgInstance = new Mailgun(formData);  
 
 
     Container.set('agendaInstance', agendaInstance);
