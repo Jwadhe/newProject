@@ -117,79 +117,79 @@ export default class AuthService {
     }
   }
 
-  public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
-    try {
+  // public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
+  //   try {
 
-      const userRecord1 = await this.userModel.findOne({ _id });
+  //     const userRecord1 = await this.userModel.findOne({ _id });
 
-      if (!userRecord1) {
-        throw new Error('user not found');
-      }
+  //     if (!userRecord1) {
+  //       throw new Error('user not found');
+  //     }
       
-      const userRecord = await this.userModel.findByIdAndDelete({ _id  });
+  //     const userRecord = await this.userModel.findByIdAndDelete({ _id  });
 
         
-      if (!userRecord) {
-        throw new Error('User not registered');
-      }
+  //     if (!userRecord) {
+  //       throw new Error('User not registered');
+  //     }
 
-      return res.status(200).send({ Message: 'user deleted successfully' });
-    } catch (e) {
-      // this.logger.error(e);
-      throw e;
-    }
-  }
+  //     return res.status(200).send({ Message: 'user deleted successfully' });
+  //   } catch (e) {
+  //     // this.logger.error(e);
+  //     throw e;
+  //   }
+  // }
 
-  public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
-    try {
-      const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
-        name: userUpdateDTO.name,
-        mobile: userUpdateDTO.mobile,
-        new: true,
-      });
+  // public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
+  //   try {
+  //     const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
+  //       name: userUpdateDTO.name,
+  //       mobile: userUpdateDTO.mobile,
+  //       new: true,
+  //     });
 
-      const userRecord = await this.userModel.findOne({ _id: userId });
-      if (!userRecord) {
-        throw new Error('user not found');
-      }
-      const user = userRecord.toObject();
+  //     const userRecord = await this.userModel.findOne({ _id: userId });
+  //     if (!userRecord) {
+  //       throw new Error('user not found');
+  //     }
+  //     const user = userRecord.toObject();
 
-      return { user };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
+  //     return { user };
+  //   } catch (e) {
+  //     this.logger.error(e);
+  //     throw e;
+  //   }
+  // }
 
-  public async changePassword(req: IUserInputDTO): Promise<{ user: IUser; message: string }> {
-    try {
-      let email = req.email;
-      const userRecord1 = await this.userModel.findOne({ email });
-      const salt = randomBytes(32);
-      const hashedPassword = await argon2.hash(req.newPassword, { salt });
-      if (userRecord1) {
-        let newPassword = req.newPassword;
-        let oldPassword = req.oldPassword;
+  // public async changePassword(req: IUserInputDTO): Promise<{ user: IUser; message: string }> {
+  //   try {
+  //     let email = req.email;
+  //     const userRecord1 = await this.userModel.findOne({ email });
+  //     const salt = randomBytes(32);
+  //     const hashedPassword = await argon2.hash(req.newPassword, { salt });
+  //     if (userRecord1) {
+  //       let newPassword = req.newPassword;
+  //       let oldPassword = req.oldPassword;
 
-        let validpass = await argon2.verify(userRecord1.password, oldPassword);
-        if (!validpass) {
-          throw new Error('old password does not match');
-        }
-        await this.userModel.findOne({ email: email }).update({ password: hashedPassword, salt: salt.toString('hex') });
-        let userRecord = await this.userModel.findOne({ email });
+  //       let validpass = await argon2.verify(userRecord1.password, oldPassword);
+  //       if (!validpass) {
+  //         throw new Error('old password does not match');
+  //       }
+  //       await this.userModel.findOne({ email: email }).update({ password: hashedPassword, salt: salt.toString('hex') });
+  //       let userRecord = await this.userModel.findOne({ email });
 
-        const user = userRecord.toObject();
-        Reflect.deleteProperty(user, 'password');
-        Reflect.deleteProperty(user, 'salt');
-        return { user, message: 'password change successfully' };
-      } else {
-        throw new Error('User does not exist');
-      }
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
+  //       const user = userRecord.toObject();
+  //       Reflect.deleteProperty(user, 'password');
+  //       Reflect.deleteProperty(user, 'salt');
+  //       return { user, message: 'password change successfully' };
+  //     } else {
+  //       throw new Error('User does not exist');
+  //     }
+  //   } catch (e) {
+  //     this.logger.error(e);
+  //     throw e;
+  //   }
+  // }
 
   private generateToken(user) {
     const today = new Date();
