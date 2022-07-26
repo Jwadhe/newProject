@@ -17,12 +17,12 @@ import { ParsedQs } from 'qs';
 export default class AuthService {
   constructor(
     @Inject('userModel') private userModel: Models.UserModel,
-    private mailer: MailerService,
+    // private mailer: MailerService,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  public async SignUp(userInputDTO: IUserInputDTO): Promise<{ user: IUser; token: string }> {
+  public async SignUp(userInputDTO: IUserInputDTO): Promise<{ user: IUser }> {
     try {
       const salt = randomBytes(32);
 
@@ -57,8 +57,8 @@ export default class AuthService {
         salt: salt.toString('hex'),
         password: hashedPassword,
       });
-      this.logger.silly('Generating JWT');
-      const token = this.generateToken(userRecord);
+      // this.logger.silly('Generating JWT');
+      // const token = this.generateToken(userRecord);
 
       if (!userRecord) {
         throw new Error('User cannot be created');
@@ -77,7 +77,7 @@ export default class AuthService {
       const user = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
-      return { user, token };
+      return { user};
     } catch (e) {
       this.logger.error(e);
       throw e;
@@ -117,79 +117,79 @@ export default class AuthService {
     }
   }
 
-  // public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
-  //   try {
+  public async deleteUser(res:any,_id: any): Promise<{ user: IUser }> {
+    try {
 
-  //     const userRecord1 = await this.userModel.findOne({ _id });
+      const userRecord1 = await this.userModel.findOne({ _id });
 
-  //     if (!userRecord1) {
-  //       throw new Error('user not found');
-  //     }
+      if (!userRecord1) {
+        throw new Error('user not found');
+      }
       
-  //     const userRecord = await this.userModel.findByIdAndDelete({ _id  });
+      const userRecord = await this.userModel.findByIdAndDelete({ _id  });
 
         
-  //     if (!userRecord) {
-  //       throw new Error('User not registered');
-  //     }
+      if (!userRecord) {
+        throw new Error('User not registered');
+      }
 
-  //     return res.status(200).send({ Message: 'user deleted successfully' });
-  //   } catch (e) {
-  //     // this.logger.error(e);
-  //     throw e;
-  //   }
-  // }
+      return res.status(200).send({ Message: 'user deleted successfully' });
+    } catch (e) {
+      // this.logger.error(e);
+      throw e;
+    }
+  }
 
-  // public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
-  //   try {
-  //     const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
-  //       name: userUpdateDTO.name,
-  //       mobile: userUpdateDTO.mobile,
-  //       new: true,
-  //     });
+  public async updateUser(userUpdateDTO: IUser, userId: ObjectId): Promise<{ user: IUser }> {
+    try {
+      const userRecord1 = await this.userModel.findByIdAndUpdate(userId, {
+        name: userUpdateDTO.name,
+        mobile: userUpdateDTO.mobile,
+        new: true,
+      });
 
-  //     const userRecord = await this.userModel.findOne({ _id: userId });
-  //     if (!userRecord) {
-  //       throw new Error('user not found');
-  //     }
-  //     const user = userRecord.toObject();
+      const userRecord = await this.userModel.findOne({ _id: userId });
+      if (!userRecord) {
+        throw new Error('user not found');
+      }
+      const user = userRecord.toObject();
 
-  //     return { user };
-  //   } catch (e) {
-  //     this.logger.error(e);
-  //     throw e;
-  //   }
-  // }
+      return { user };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
 
-  // public async changePassword(req: IUserInputDTO): Promise<{ user: IUser; message: string }> {
-  //   try {
-  //     let email = req.email;
-  //     const userRecord1 = await this.userModel.findOne({ email });
-  //     const salt = randomBytes(32);
-  //     const hashedPassword = await argon2.hash(req.newPassword, { salt });
-  //     if (userRecord1) {
-  //       let newPassword = req.newPassword;
-  //       let oldPassword = req.oldPassword;
+  public async changePassword(req: IUserInputDTO): Promise<{ user: IUser; message: string }> {
+    try {
+      let email = req.email;
+      const userRecord1 = await this.userModel.findOne({ email });
+      const salt = randomBytes(32);
+      const hashedPassword = await argon2.hash(req.newPassword, { salt });
+      if (userRecord1) {
+        let newPassword = req.newPassword;
+        let oldPassword = req.oldPassword;
 
-  //       let validpass = await argon2.verify(userRecord1.password, oldPassword);
-  //       if (!validpass) {
-  //         throw new Error('old password does not match');
-  //       }
-  //       await this.userModel.findOne({ email: email }).update({ password: hashedPassword, salt: salt.toString('hex') });
-  //       let userRecord = await this.userModel.findOne({ email });
+        let validpass = await argon2.verify(userRecord1.password, oldPassword);
+        if (!validpass) {
+          throw new Error('old password does not match');
+        }
+        await this.userModel.findOne({ email: email }).update({ password: hashedPassword, salt: salt.toString('hex') });
+        let userRecord = await this.userModel.findOne({ email });
 
-  //       const user = userRecord.toObject();
-  //       Reflect.deleteProperty(user, 'password');
-  //       Reflect.deleteProperty(user, 'salt');
-  //       return { user, message: 'password change successfully' };
-  //     } else {
-  //       throw new Error('User does not exist');
-  //     }
-  //   } catch (e) {
-  //     this.logger.error(e);
-  //     throw e;
-  //   }
-  // }
+        const user = userRecord.toObject();
+        Reflect.deleteProperty(user, 'password');
+        Reflect.deleteProperty(user, 'salt');
+        return { user, message: 'password change successfully' };
+      } else {
+        throw new Error('User does not exist');
+      }
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
 
   private generateToken(user) {
     const today = new Date();

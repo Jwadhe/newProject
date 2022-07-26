@@ -27,8 +27,8 @@ export default (app: Router) => {
       logger.debug('Calling Sign-Up endpoint with body: %o', req.body);
       try {
         const authServiceInstance = Container.get(AuthService);
-        const { user, token } = await authServiceInstance.SignUp(req.body as IUserInputDTO);
-        return res.status(201).json({ user, token });
+        const { user } = await authServiceInstance.SignUp(req.body as IUserInputDTO);
+        return res.status(201).json({ user});
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return res.status(200).send({
@@ -42,7 +42,7 @@ export default (app: Router) => {
 
   route.post(
     '/signin',
-    middlewares.isAuth,
+    // middlewares.isAuth,
     celebrate({
       body: Joi.object({
         email: Joi.string().required(),
